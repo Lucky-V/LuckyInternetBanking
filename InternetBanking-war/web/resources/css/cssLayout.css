@@ -1,0 +1,43 @@
+
+#top {
+    position: relative;
+    background-color: #036fab;
+    color: white;
+    padding: 5px;
+    margin: 0px 0px 10px 0px;
+}
+
+#bottom {
+    position: relative;
+    background-color: #7fff74;
+    padding: 5px;
+    margin: 10px 0px 0px 0px;
+    text-align: center;
+    clear: both;
+}
+
+#left {
+    float: left;
+    padding: 5px;
+    width: 230px;
+    margin-bottom: 10px;
+    border-right: 1px solid;
+}
+
+#content {
+    margin-left: 250px;
+}
+
+.center_content {
+    position: relative;
+    background-color: #dddddd;
+    padding: 5px;
+}
+
+.left_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin-left: 170px;
+}
+
+
