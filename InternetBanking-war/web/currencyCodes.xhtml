@@ -1,14 +1,60 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
     
     <body>
         
         <ui:composition template="./WEB-INF/includes/simpleTemplate.xhtml">
 
             <ui:define name="content">
-                content
+                <h1>#{msgs.currency_codes_title}</h1>
+
+                <h2>#{msgs.currency_codes_list_title}</h2>
+
+                <h:form>
+                    <p:dataTable var="currency" value="" style="width: 40%">
+                        <p:column headerText="#{msgs.currency_codes_list_code}">
+                            <h:outputText value="" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.currency_codes_list_name}">
+                            <h:outputText value="" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.currency_codes_list_decimal_digits}">
+                            <h:outputText value="" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <h2>#{msgs.currency_codes_update_title}</h2>
+
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel for="code" value="#{msgs.currency_codes_code}" />
+                        <p:inputText id="code" />
+
+                        <h:outputLabel for="name" value="#{msgs.currency_codes_name}" />
+                        <p:inputText id="name" />
+
+                        <h:outputLabel for="digits" value="#{msgs.currency_codes_decimal_digits}" />
+                        <p:inputText id="digits" />
+
+                        <p:commandButton value="#{msgs.currency_codes_update}" />
+                    </h:panelGrid>
+                </h:form>
+
+                <h2>#{msgs.currency_codes_delete_title}</h2>
+
+                <h:form>
+                    <h:selectOneMenu>
+
+                    </h:selectOneMenu>
+                    <p:commandButton value="#{msgs.currency_codes_delete}" />
+                </h:form>
             </ui:define>
 
         </ui:composition>

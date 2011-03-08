@@ -1,14 +1,53 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
     
     <body>
         
         <ui:composition template="./WEB-INF/includes/simpleTemplate.xhtml">
 
             <ui:define name="content">
-                content
+                <h1>#{msgs.interest_rates_title}</h1>
+
+                <h2>#{msgs.interest_rates_list_title}</h2>
+
+                <h:form>
+                    <p:dataTable var="rate" value="" style="width: 40%">
+                        <p:column headerText="#{msgs.interest_rates_list_code}">
+                            <h:outputText value="" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.interest_rates_list_rate}">
+                            <h:outputText value="" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <h2>#{msgs.interest_rates_update_title}</h2>
+
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel for="code" value="#{msgs.interest_rates_code}" />
+                        <p:inputText id="code" />
+
+                        <h:outputLabel for="name" value="#{msgs.interest_rates_rate}" />
+                        <p:inputText id="name" />
+
+                        <p:commandButton value="#{msgs.interest_rates_update}" />
+                    </h:panelGrid>
+                </h:form>
+
+                <h2>#{msgs.interest_rates_delete_title}</h2>
+
+                <h:form>
+                    <h:selectOneMenu>
+
+                    </h:selectOneMenu>
+                    <p:commandButton value="#{msgs.interest_rates_delete}" />
+                </h:form>
             </ui:define>
 
         </ui:composition>

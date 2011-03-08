@@ -1,17 +1,56 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
     <body>
-        
+
         <ui:composition template="./WEB-INF/includes/simpleTemplate.xhtml">
 
             <ui:define name="content">
-                content
+                <h1>#{msgs.bank_codes_title}</h1>
+
+                <h2>#{msgs.bank_codes_list_title}</h2>
+
+                <h:form>
+                    <p:dataTable var="bank" value="" style="width: 30%">
+                        <p:column headerText="#{msgs.bank_codes_list_code}">
+                            <h:outputText value="" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.bank_codes_list_name}">
+                            <h:outputText value="" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <h2>#{msgs.bank_codes_update_title}</h2>
+
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel for="bankCode" value="#{msgs.bank_codes_bank_code}" />
+                        <p:inputText id="bankCode" />
+
+                        <h:outputLabel for="bankName" value="#{msgs.bank_codes_bank_name}" />
+                        <p:inputText id="bankName" />
+
+                        <p:commandButton value="#{msgs.bank_codes_update}" />
+                    </h:panelGrid>
+                </h:form>
+
+                <h2>#{msgs.bank_codes_delete_title}</h2>
+
+                <h:form>
+                    <h:selectOneMenu>
+
+                    </h:selectOneMenu>
+                    <p:commandButton value="#{msgs.bank_codes_delete}" />
+                </h:form>
             </ui:define>
 
         </ui:composition>
-        
+
     </body>
 </html>
