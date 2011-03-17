@@ -1,14 +1,48 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
     
     <body>
         
         <ui:composition template="./WEB-INF/includes/simpleTemplate.xhtml">
 
             <ui:define name="content">
-                content
+                <h1>#{msgs.all_transactions_title}</h1>
+
+                <h:form>
+                    <p:dataTable value="" var="transaction">
+                        <p:column headerText="#{msgs.transaction_list_id}">
+                            <h:outputText value="" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.transaction_list_accountFrom}">
+                            <h:outputText value="" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.transaction_list_amountFrom}">
+                            <h:outputText value="" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.transaction_list_accountTo}">
+                            <h:outputText value="" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.transaction_list_amountTo}">
+                            <h:outputText value="" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.transaction_list_description}">
+                            <h:outputText value="" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.transaction_list_dateTime}">
+                            <h:outputText value="" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
             </ui:define>
 
         </ui:composition>

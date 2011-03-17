@@ -1,14 +1,36 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
     
     <body>
         
         <ui:composition template="./WEB-INF/includes/simpleTemplate.xhtml">
 
             <ui:define name="content">
-                content
+                <h1>#{msgs.customer_accountlist_title}</h1>
+
+                <h:form>
+                    <p:dataTable value="" var="acc" style="width: 50%;">
+                        <p:column headerText="#{msgs.account_list_id}">
+                            <h:outputText value="" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.account_list_currency}">
+                            <h:outputText value="" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.account_list_balance}">
+                            <h:outputText value="" />
+                        </p:column>
+
+                        <p:column headerText="">
+                            <h:commandLink value="#{msgs.all_accounts_transactionlink}" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
             </ui:define>
 
         </ui:composition>

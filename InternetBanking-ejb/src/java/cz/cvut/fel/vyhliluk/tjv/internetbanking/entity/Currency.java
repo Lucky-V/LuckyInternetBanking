@@ -1,8 +1,11 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  * Date: 9.3.2011
@@ -10,21 +13,27 @@ import javax.persistence.Id;
  * @author Lucky
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="Currency.getAll", query="SELECT c FROM Currency c"),
+    @NamedQuery(name="Currency.getByCode", query="SELECT c from Currency c where c.code=:code")
+})
 public class Currency implements Serializable {
     private static final long serialVersionUID = 1L;
+
     @Id
-    private Long code;
+    @Column(length=3)
+    private String code;
 
     private String name;
 
     private Integer decimalDigits;
 
-    public Long getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Long id) {
-        this.code = id;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public Integer getDecimalDigits() {

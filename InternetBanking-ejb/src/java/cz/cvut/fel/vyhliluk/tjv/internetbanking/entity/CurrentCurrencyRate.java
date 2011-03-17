@@ -3,6 +3,8 @@ package cz.cvut.fel.vyhliluk.tjv.internetbanking.entity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * Date: 9.3.2011
@@ -13,16 +15,28 @@ import javax.persistence.Id;
 public class CurrentCurrencyRate implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    private Long code;
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(unique=true)
+    private Currency currency;
 
     private Double rate;
 
-    public Long getCode() {
-        return code;
+    public Currency getCurrency() {
+        return currency;
     }
 
-    public void setCode(Long code) {
-        this.code = code;
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Double getRate() {
@@ -36,7 +50,7 @@ public class CurrentCurrencyRate implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (code != null ? code.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -47,7 +61,7 @@ public class CurrentCurrencyRate implements Serializable {
             return false;
         }
         CurrentCurrencyRate other = (CurrentCurrencyRate) object;
-        if ((this.code == null && other.code != null) || (this.code != null && !this.code.equals(other.code))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -55,7 +69,7 @@ public class CurrentCurrencyRate implements Serializable {
 
     @Override
     public String toString() {
-        return "cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.CurrentCurrencyRate[id=" + code + "]";
+        return "cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.CurrentCurrencyRate[id=" + id + "]";
     }
 
 }

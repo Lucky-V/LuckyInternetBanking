@@ -3,6 +3,8 @@ package cz.cvut.fel.vyhliluk.tjv.internetbanking.entity;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  * Date: 9.3.2011
@@ -10,18 +12,21 @@ import javax.persistence.Id;
  * @author Lucky
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="Bank.findAll", query="SELECT b FROM Bank b")
+})
 public class Bank implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    private Long code;
+    private Integer code;
 
     private String name;
 
-    public Long getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(Long code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 

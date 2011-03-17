@@ -1,10 +1,16 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.entity;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 /**
  * Date: 9.3.2011
@@ -12,11 +18,21 @@ import javax.persistence.Id;
  * @author Lucky
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="Customer.findAll", query="SELECT c FROM Customer c where c.valid='true'")
+})
 public class Customer implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    @Version
+    private Integer version;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Account> accounts;
 
     private String firstName;
 
@@ -24,12 +40,23 @@ public class Customer implements Serializable {
 
     private String email;
 
+    @Column(nullable=false)
+    private Boolean valid = true;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 
     public String getEmail() {
@@ -54,6 +81,14 @@ public class Customer implements Serializable {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public Boolean getValid() {
+        return valid;
+    }
+
+    public void setValid(Boolean valid) {
+        this.valid = valid;
     }
 
     @Override
