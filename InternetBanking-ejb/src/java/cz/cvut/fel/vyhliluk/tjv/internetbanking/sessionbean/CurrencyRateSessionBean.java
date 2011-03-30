@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.CurrencyRate;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.CurrentCurrencyRate;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -55,5 +52,29 @@ public class CurrencyRateSessionBean implements CurrencyRateSessionBeanLocal {
     @Override
     public CurrencyRate getById(Integer id) {
         return this.em.find(CurrencyRate.class, id);
+    }
+
+    @Override
+    public void updateCurrentCurrency(CurrentCurrencyRate ccr) {
+        this.em.merge(ccr);
+    }
+
+    @Override
+    public CurrentCurrencyRate getCurrentRateByCurrencyCode(String code) {
+        Query q = this.em.createNamedQuery("CurrentCurrencyRate.getByCurrencyCode");
+        q.setParameter("code", code);
+        try {
+            return (CurrentCurrencyRate) q.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public void removeCurrentCurrencyRate(Integer id) {
+        CurrentCurrencyRate cr = this.em.find(CurrentCurrencyRate.class, id);
+        if (cr != null) {
+            this.em.remove(cr);
+        }
     }
 }

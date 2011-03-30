@@ -1,11 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.CurrencyRate;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.CurrentCurrencyRate;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -25,5 +21,11 @@ public interface CurrencyRateSessionBeanLocal {
     void update(CurrencyRate r);
 
     void remove(Integer id);
+
+    void updateCurrentCurrency(CurrentCurrencyRate ccr);
+
+    CurrentCurrencyRate getCurrentRateByCurrencyCode(String code);
+
+    void removeCurrentCurrencyRate(Integer id);
     
 }

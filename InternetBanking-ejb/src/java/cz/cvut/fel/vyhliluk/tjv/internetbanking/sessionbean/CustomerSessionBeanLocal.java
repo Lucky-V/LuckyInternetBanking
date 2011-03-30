@@ -6,6 +6,7 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Customer;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.exception.EntityAlreadyUpdatedException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -20,7 +21,7 @@ public interface CustomerSessionBeanLocal {
 
     void addCustomer(Customer c);
 
-    void updateCustomer(Customer c);
+    void updateCustomer(Customer c) throws EntityAlreadyUpdatedException;
 
     List<Customer> getAllCustomers();
 

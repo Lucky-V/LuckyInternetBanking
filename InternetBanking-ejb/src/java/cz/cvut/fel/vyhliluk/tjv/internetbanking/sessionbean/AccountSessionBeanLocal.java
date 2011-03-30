@@ -19,4 +19,6 @@ public interface AccountSessionBeanLocal {
     public void addAccount(Account a);
 
     public List<Account> getAllAccounts();
+
+    void updateAccount(Account a);
 }

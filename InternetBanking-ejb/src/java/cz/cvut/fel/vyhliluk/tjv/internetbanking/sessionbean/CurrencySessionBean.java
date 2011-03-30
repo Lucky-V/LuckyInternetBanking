@@ -28,6 +28,11 @@ public class CurrencySessionBean implements CurrencySessionBeanLocal {
         return q.getResultList();
     }
 
+    public List<Currency> getCurrenciesWithRate() {
+        Query q = this.em.createNamedQuery("Currency.getWithRate");
+        return q.getResultList();
+    }
+
     @Override
     public void updateCurrency(Currency c) {
         this.em.merge(c);

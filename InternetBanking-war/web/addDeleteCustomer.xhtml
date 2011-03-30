@@ -49,7 +49,7 @@
                 <h:form id="deleteForm">
                     <h:panelGrid id="panel" columns="2">
                         <h:selectOneMenu id="customerSelect"
-                                         value="#{customer.selectedCustomerId}">
+                                         value="#{customer.customerId}">
                             <f:selectItems value="#{customer.customerSelectItems}" />
                         </h:selectOneMenu>
                         <p:commandButton value="#{msgs.add_delete_customer_delete}"

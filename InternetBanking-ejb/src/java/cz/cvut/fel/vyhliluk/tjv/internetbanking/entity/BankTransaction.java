@@ -3,11 +3,14 @@ package cz.cvut.fel.vyhliluk.tjv.internetbanking.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 
 /**
@@ -16,10 +19,14 @@ import javax.persistence.Temporal;
  * @author Lucky
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="BankTransaction.viewAll", query="SELECT bt FROM BankTransaction bt ORDER BY bt.id DESC"),
+    @NamedQuery(name="BankTransaction.getByAccount", query="SELECT bt FROM BankTransaction bt JOIN bt.accountFrom af JOIN bt.accountTo at where af = :account or at = :account ORDER BY bt.id DESC")
+})
 public class BankTransaction implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @ManyToOne
@@ -28,13 +35,15 @@ public class BankTransaction implements Serializable {
     @ManyToOne
     private Account accountTo;
 
+    @Column(precision=20, scale=2)
     private BigDecimal amountFrom;
 
+    @Column(precision=20, scale=2)
     private BigDecimal amountTo;
 
     private String description;
 
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateTime;
 
     public Long getId() {

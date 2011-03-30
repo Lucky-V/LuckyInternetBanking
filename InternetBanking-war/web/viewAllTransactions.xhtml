@@ -13,33 +13,36 @@
                 <h1>#{msgs.all_transactions_title}</h1>
 
                 <h:form>
-                    <p:dataTable value="" var="transaction">
+                    <p:dataTable value="#{transactions.allTransactions}"
+                                 var="trans">
                         <p:column headerText="#{msgs.transaction_list_id}">
-                            <h:outputText value="" />
+                            <h:outputText value="#{trans.id}" />
                         </p:column>
 
                         <p:column headerText="#{msgs.transaction_list_accountFrom}">
-                            <h:outputText value="" />
+                            <h:outputText value="#{trans.accountFrom.id}, #{trans.accountFrom.customer.surname}" />
                         </p:column>
 
                         <p:column headerText="#{msgs.transaction_list_amountFrom}">
-                            <h:outputText value="" />
+                            <h:outputText value="#{trans.amountFrom}" />
                         </p:column>
 
                         <p:column headerText="#{msgs.transaction_list_accountTo}">
-                            <h:outputText value="" />
+                            <h:outputText value="#{trans.accountTo.id}, #{trans.accountTo.customer.surname}" />
                         </p:column>
 
                         <p:column headerText="#{msgs.transaction_list_amountTo}">
-                            <h:outputText value="" />
+                            <h:outputText value="#{trans.amountTo}" />
                         </p:column>
 
                         <p:column headerText="#{msgs.transaction_list_description}">
-                            <h:outputText value="" />
+                            <h:outputText value="#{trans.description}" />
                         </p:column>
 
                         <p:column headerText="#{msgs.transaction_list_dateTime}">
-                            <h:outputText value="" />
+                            <h:outputText value="#{trans.dateTime}">
+                                
+                            </h:outputText>
                         </p:column>
                     </p:dataTable>
                 </h:form>

@@ -1,15 +1,16 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.entity;
 
 import java.io.Serializable;
-import javax.annotation.Generated;
+import java.math.BigDecimal;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 
 /**
  * Date: 9.3.2011
@@ -28,11 +29,12 @@ public class CurrencyRate implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(unique=true)
     private Currency currency;
 
-    private Double rate;
+    @Column(precision=10, scale=2, nullable=false)
+    private BigDecimal rate;
 
     public Currency getCurrency() {
         return currency;
@@ -50,11 +52,11 @@ public class CurrencyRate implements Serializable {
         this.id = id;
     }
 
-    public Double getRate() {
+    public BigDecimal getRate() {
         return rate;
     }
 
-    public void setRate(Double rate) {
+    public void setRate(BigDecimal rate) {
         this.rate = rate;
     }
 

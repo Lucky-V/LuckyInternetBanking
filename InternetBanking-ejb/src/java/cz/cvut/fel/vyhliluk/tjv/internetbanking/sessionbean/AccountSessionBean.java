@@ -1,6 +1,7 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Account;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,6 +20,7 @@ public class AccountSessionBean implements AccountSessionBeanLocal {
 
     @Override
     public void addAccount(Account a) {
+        System.out.println(a.getBalance());
         this.em.persist(a);
     }
 
@@ -26,6 +28,12 @@ public class AccountSessionBean implements AccountSessionBeanLocal {
     public List<Account> getAllAccounts() {
         Query q = this.em.createNamedQuery("Account.findAll");
         return q.getResultList();
+    }
+
+    @Override
+    public void updateAccount(Account a) {
+        this.em.merge(a);
+        this.em.flush();
     }
  
 }

@@ -6,14 +6,17 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.backingbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Customer;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.exception.EntityAlreadyUpdatedException;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CustomerSessionBeanLocal;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.BundleUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
+import javax.persistence.OptimisticLockException;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
@@ -41,10 +44,10 @@ public class CustomerBean {
     private String email;
 
     @NotNull
-    private Long selectedCustomerId;
+    private Long customerId;
 
     @NotNull
-    private Customer selectedCustomer;
+    private Integer version;
 
     public List<Customer> getAllCustomers() {
         return this.custSessionBean.getAllCustomers();
@@ -62,17 +65,21 @@ public class CustomerBean {
     public void onRowSelect(SelectEvent event) {
         Customer c = (Customer) event.getObject();
         
-        this.selectedCustomerId = c.getId();
+        this.customerId = c.getId();
         this.firstName = c.getFirstName();
         this.surname = c.getSurname();
         this.email = c.getEmail();
+        this.customerId = c.getId();
+        this.version = c.getVersion();
     }
 
     public void onRowUnselect(UnselectEvent event) {
-        this.selectedCustomerId = null;
+        this.customerId = null;
         this.firstName = null;
         this.surname = null;
         this.email = null;
+        this.customerId = null;
+        this.version = null;
     }
 
     public String createCustomer() {
@@ -94,17 +101,28 @@ public class CustomerBean {
     }
 
     public String update() {
-        if (this.selectedCustomer == null) {
+        Customer c = this.custSessionBean.getCustomerById(this.customerId);
+        if (c == null) {
             BundleUtil.addErrMessage(
                     "update_customer_updated_err_noselect_msg_title",
                     "update_customer_updated_err_noselect_msg");
+
             return null;
         }
 
-        this.selectedCustomer.setFirstName(firstName);
-        this.selectedCustomer.setSurname(surname);
-        this.selectedCustomer.setEmail(email);
-        this.custSessionBean.updateCustomer(this.selectedCustomer);
+        c.setVersion(this.version);
+        c.setFirstName(this.firstName);
+        c.setSurname(this.surname);
+        c.setEmail(this.email);
+
+        try {
+            this.custSessionBean.updateCustomer(c);
+        } catch (EntityAlreadyUpdatedException ex) {
+            BundleUtil.addErrMessage(
+                "update_customer_updated_err_optimlock_title",
+                "update_customer_updated_err_optimlock_msg");
+            return null;
+        }
 
         BundleUtil.addOkMessage(
                 "update_customer_updated_ok_msg_title",
@@ -116,9 +134,9 @@ public class CustomerBean {
     }
 
     public String delete() {
-        this.custSessionBean.invalidate(this.selectedCustomerId);
+        this.custSessionBean.invalidate(this.customerId);
 
-        this.selectedCustomerId = null;
+        this.customerId = null;
 
         BundleUtil.addOkMessage(
                 "add_delete_customer_deleted_ok_msg_title",
@@ -151,20 +169,20 @@ public class CustomerBean {
         this.surname = surname;
     }
 
-    public Long getSelectedCustomerId() {
-        return selectedCustomerId;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setSelectedCustomerId(Long selectedCustomerId) {
-        this.selectedCustomerId = selectedCustomerId;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
-    public Customer getSelectedCustomer() {
-        return selectedCustomer;
+    public Integer getVersion() {
+        return version;
     }
 
-    public void setSelectedCustomer(Customer selectedCustomer) {
-        this.selectedCustomer = selectedCustomer;
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
 }

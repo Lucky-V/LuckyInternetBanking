@@ -91,6 +91,14 @@ public class Customer implements Serializable {
         this.valid = valid;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

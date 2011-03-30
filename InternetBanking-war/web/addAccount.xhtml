@@ -30,7 +30,7 @@
                         <h:selectOneMenu id="currency"
                                          value="#{accounts.selectedCurrencyCode}"
                                          required="true">
-                            <f:selectItems value="#{currencyCodes.currencyItems}" />
+                            <f:selectItems value="#{currencyCodes.currencyItemsWithRate}" />
                         </h:selectOneMenu>
                         <p:message for="currency" />
 

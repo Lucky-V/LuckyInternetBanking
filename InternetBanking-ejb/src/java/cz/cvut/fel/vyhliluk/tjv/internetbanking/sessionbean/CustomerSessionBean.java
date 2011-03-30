@@ -5,9 +5,11 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Customer;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.exception.EntityAlreadyUpdatedException;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -27,8 +29,12 @@ public class CustomerSessionBean implements CustomerSessionBeanLocal {
     }
 
     @Override
-    public void updateCustomer(Customer c) {
-        this.em.merge(c);
+    public void updateCustomer(Customer c) throws EntityAlreadyUpdatedException {
+        try {
+            this.em.merge(c);
+        } catch (OptimisticLockException ex) {
+            throw new EntityAlreadyUpdatedException("Customer has been already updated");
+        }
     }
 
     @Override

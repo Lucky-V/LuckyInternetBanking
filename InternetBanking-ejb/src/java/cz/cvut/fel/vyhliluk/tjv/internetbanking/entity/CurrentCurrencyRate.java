@@ -1,10 +1,16 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  * Date: 9.3.2011
@@ -12,16 +18,22 @@ import javax.persistence.ManyToOne;
  * @author Lucky
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="CurrentCurrencyRate.findAll", query="SELECT cr FROM CurrentCurrencyRate cr"),
+    @NamedQuery(name="CurrentCurrencyRate.getByCurrencyCode", query="SELECT cr FROM CurrentCurrencyRate cr where cr.currency.code=:code")
+})
 public class CurrentCurrencyRate implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(unique=true)
     private Currency currency;
 
-    private Double rate;
+    @Column(precision=10, scale=2, nullable=false)
+    private BigDecimal rate;
 
     public Currency getCurrency() {
         return currency;
@@ -31,19 +43,19 @@ public class CurrentCurrencyRate implements Serializable {
         this.currency = currency;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Double getRate() {
+    public BigDecimal getRate() {
         return rate;
     }
 
-    public void setRate(Double rate) {
+    public void setRate(BigDecimal rate) {
         this.rate = rate;
     }
 

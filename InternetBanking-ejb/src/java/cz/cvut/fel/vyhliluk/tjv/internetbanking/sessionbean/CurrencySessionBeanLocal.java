@@ -20,6 +20,8 @@ public interface CurrencySessionBeanLocal {
 
     List<Currency> getAllCurencies();
 
+    List<Currency> getCurrenciesWithRate();
+
     void updateCurrency(Currency c);
 
     void deleteCurrency(String code);

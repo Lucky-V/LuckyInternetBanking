@@ -79,8 +79,21 @@ public class CurrencyCodesBean {
         return this.currencyBean.getAllCurencies();
     }
 
+    public List<Currency> getCurrenciesWithRate() {
+        return this.currencyBean.getCurrenciesWithRate();
+    }
+
     public List<SelectItem> getCurrencyItems() {
         List<Currency> currencies = this.getAllCurrencies();
+        List<SelectItem> res = new ArrayList<SelectItem>(currencies.size());
+        for (Currency currency : currencies) {
+            res.add(new SelectItem(currency.getCode(), currency.getName()));
+        }
+        return res;
+    }
+
+    public List<SelectItem> getCurrencyItemsWithRate() {
+        List<Currency> currencies = this.getCurrenciesWithRate();
         List<SelectItem> res = new ArrayList<SelectItem>(currencies.size());
         for (Currency currency : currencies) {
             res.add(new SelectItem(currency.getCode(), currency.getName()));

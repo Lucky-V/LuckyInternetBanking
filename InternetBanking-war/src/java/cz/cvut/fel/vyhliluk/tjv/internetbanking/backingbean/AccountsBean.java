@@ -13,6 +13,7 @@ import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencySessionBeanL
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CustomerSessionBeanLocal;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.BundleUtil;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -44,6 +45,7 @@ public class AccountsBean {
 
     @DecimalMin(value="0")
     @Digits(integer=20,fraction=2)
+    @NotNull
     private BigDecimal initBalance;
     
     public List<Account> getAllAccounts() {
@@ -53,11 +55,12 @@ public class AccountsBean {
     public String add() {
         Customer cust = this.customerBean.getCustomerById(this.selectedCustomerId);
         Currency cur = this.currencyBean.getByCode(this.selectedCurrencyCode);
+        BigDecimal balance = this.initBalance.setScale(cur.getDecimalDigits(), RoundingMode.HALF_UP);
 
         Account acc = new Account();
         acc.setCustomer(cust);
         acc.setCurrency(cur);
-        acc.setBalance(initBalance);
+        acc.setBalance(balance);
 
         this.accountBean.addAccount(acc);
 

@@ -10,6 +10,7 @@ import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.CurrencyRate;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencyRateSessionBeanLocal;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencySessionBeanLocal;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.BundleUtil;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -48,7 +49,7 @@ public class InterestRatesBean {
             Currency c = this.currencyBean.getByCode(selectedCurrency);
             cr.setCurrency(c);
         }
-        cr.setRate(Double.parseDouble(rate));
+        cr.setRate(new BigDecimal(rate));
         this.rateBean.update(cr);
 
         this.selectedCurrency = null;
