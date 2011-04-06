@@ -1,43 +1,42 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
- * Date: 9.3.2011
- * Time: 11:32:56
+ * Date: 6.4.2011
+ * Time: 11:13:43
  * @author Lucky
  */
 @Entity
+@Table(name="usertable")
+@Inheritance(strategy=InheritanceType.JOINED)
+@DiscriminatorColumn(name="user_type")
 @NamedQueries({
-    @NamedQuery(name="Account.findAll", query="SELECT a FROM Account a JOIN a.customer c where c.valid = 'true'")
+    @NamedQuery(name="User.findByUsername", query="SELECT c FROM Customer c where c.username=:username")
 })
-public class Account implements Serializable {
+public class User implements Serializable {
     private static final long serialVersionUID = 1L;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
-    @ManyToOne
-    @JoinColumn(nullable=false)
-    private Customer customer;
+    @Column(nullable=false, unique=true)
+    private String username;
 
-    @ManyToOne
-    @JoinColumn(nullable=false)
-    private Currency currency;
-
-    @Column(scale=2, precision=20, nullable=false)
-    private BigDecimal balance;
+    @Column(nullable=false)
+    private String password;
 
     public Long getId() {
         return id;
@@ -47,28 +46,20 @@ public class Account implements Serializable {
         this.id = id;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public String getPassword() {
+        return password;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public BigDecimal getBalance() {
-        return balance;
+    public String getUsername() {
+        return username;
     }
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -81,10 +72,10 @@ public class Account implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Account)) {
+        if (!(object instanceof User)) {
             return false;
         }
-        Account other = (Account) object;
+        User other = (User) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -93,7 +84,7 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return "cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Account[id=" + id + "]";
+        return "cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.User[id=" + id + "]";
     }
 
 }

@@ -12,11 +12,12 @@ import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.BundleUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.persistence.OptimisticLockException;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
@@ -42,6 +43,11 @@ public class CustomerBean {
 
     @Pattern(regexp="^[\\w\\.=-]+@[\\w\\.-]+\\.cz$")
     private String email;
+
+    @Length(min=5, max=20)
+    private String password;
+
+    private String password2;
 
     @NotNull
     private Long customerId;
@@ -83,10 +89,28 @@ public class CustomerBean {
     }
 
     public String createCustomer() {
+        if (!password.equals(password2)) {
+            FacesContext.getCurrentInstance().addMessage(
+                    "customerForm:password2",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "", BundleUtil.getString("add_delete_customer_validation_password2")));
+            return null;
+        }
+
+        String usernameTemplate = surname.substring(0, surname.length() > 5 ? 5 : surname.length())
+                + firstName.substring(0, firstName.length() > 3 ? 3 : firstName.length());
+        String username = usernameTemplate;
+        Integer n = 0;
+        while (! this.custSessionBean.isUsernameFree(username)) {
+            n++;
+            username = usernameTemplate + n;
+        }
+
         Customer c = new Customer();
         c.setFirstName(firstName);
         c.setSurname(surname);
         c.setEmail(email);
+        c.setPassword(password);
+        c.setUsername(username);
         this.custSessionBean.addCustomer(c);
 
         this.firstName = "";
@@ -183,6 +207,22 @@ public class CustomerBean {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
     }
 
 }

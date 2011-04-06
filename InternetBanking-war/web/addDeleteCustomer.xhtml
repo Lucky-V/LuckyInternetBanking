@@ -38,6 +38,17 @@
                                      validatorMessage="#{msgs.add_delete_customer_validation_email}"/>
                         <p:message for="email" />
 
+                        <h:outputLabel for="password" value="#{msgs.add_delete_customer_password}" />
+                        <p:inputText id="password"
+                                     value="#{customer.password}"
+                                     validatorMessage="#{msgs.add_delete_customer_validation_password}"/>
+                        <p:message for="password" />
+
+                        <h:outputLabel for="password2" value="#{msgs.add_delete_customer_password2}" />
+                        <p:inputText id="password2"
+                                     value="#{customer.password2}" />
+                        <p:message for="password2" />
+
                         <p:commandButton value="#{msgs.add_delete_customer_add}"
                                          update="messages,customerForm,deleteForm:panel"
                                          action="#{customer.createCustomer}"/>

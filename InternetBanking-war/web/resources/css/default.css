@@ -29,13 +29,14 @@ a:hover {
 #left a {
     display: block;
     background-color: #fbf5e1;
+    margin-bottom: 3px;
     padding: 3px 3px 3px 3px;
-    margin: 0px;
     color: blue;
     border-left: 5px solid #D20005;
     border-right: 5px solid #D20005;
     text-decoration : none;
     text-align: center;
+    width: 210px;
 }
 
 #left a:hover {

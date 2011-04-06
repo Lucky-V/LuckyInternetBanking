@@ -30,6 +30,14 @@
                             <h:outputText value="#{cust.email}" />
                         </p:column>
 
+                        <p:column headerText="#{msgs.customer_list_username}">
+                            <h:outputText value="#{cust.username}" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.customer_list_password}">
+                            <h:outputText value="#{cust.password}" />
+                        </p:column>
+
                         <p:column headerText="">
                             <h:commandLink value="#{msgs.all_customers_accountlink}" />
                         </p:column>

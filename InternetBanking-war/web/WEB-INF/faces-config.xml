@@ -27,6 +27,11 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>viewUpdateInterestRates</from-outcome>
             <to-view-id>/interestRates.xhtml</to-view-id>
             <redirect/>

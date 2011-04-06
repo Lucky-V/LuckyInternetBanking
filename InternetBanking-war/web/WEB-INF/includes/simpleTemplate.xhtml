@@ -28,35 +28,51 @@
 
                             <p:spacer height="20" />
 
-                            <h:link outcome="viewUpdateBankCodes"
-                                    value="#{msgs.link_view_update_bank_codes}" />
-                            <h:link outcome="viewUpdateCurrencyCodes"
-                                    value="#{msgs.link_view_update_currency_codes}" />
-                            <h:link outcome="viewUpdateInterestRates"
-                                    value="#{msgs.link_view_update_interest_rates}"/>
-                            <h:link outcome="addDeleteCustomer"
-                                    value="#{msgs.link_add_delete_customer}"/>
-                            <h:link outcome="updateCustomer"
-                                    value="#{msgs.link_update_customer}"/>
-                            <h:link outcome="viewAllCustomers"
-                                    value="#{msgs.link_view_all_customers}"/>
-                            <h:link outcome="viewAllAccounts"
-                                    value="#{msgs.link_view_all_accounts}"/>
-                            <h:link outcome="addAccount"
-                                    value="#{msgs.link_add_account}"/>
-                            <h:link outcome="viewAllTransactions"
-                                    value="#{msgs.link_view_all_transactions}"/>
+                            <h:panelGroup rendered="#{loginBean.manager}">
+                                <h:link outcome="viewUpdateBankCodes"
+                                        value="#{msgs.link_view_update_bank_codes}" />
+                                <h:link outcome="viewUpdateCurrencyCodes"
+                                        value="#{msgs.link_view_update_currency_codes}" />
+                                <h:link outcome="viewUpdateInterestRates"
+                                        value="#{msgs.link_view_update_interest_rates}"/>
+                                <h:link outcome="addDeleteCustomer"
+                                        value="#{msgs.link_add_delete_customer}"/>
+                                <h:link outcome="updateCustomer"
+                                        value="#{msgs.link_update_customer}"/>
+                                <h:link outcome="viewAllCustomers"
+                                        value="#{msgs.link_view_all_customers}"/>
+                                <h:link outcome="viewAllAccounts"
+                                        value="#{msgs.link_view_all_accounts}"/>
+                                <h:link outcome="addAccount"
+                                        value="#{msgs.link_add_account}"/>
+                                <h:link outcome="viewAllTransactions"
+                                        value="#{msgs.link_view_all_transactions}"/>
+                                <p:spacer height="20" />
+                            </h:panelGroup>
 
-                            <p:spacer height="20" />
+                            
 
-                            <h:link outcome="custViewAccounts"
-                                    value="#{msgs.link_cust_accounts}"/>
-                            <h:link outcome="custTransferMoney"
-                                    value="#{msgs.link_cust_transfer_money}"/>
-                            <h:link outcome="custSendStatement"
-                                    value="#{msgs.link_cust_send_statement}"/>
-                            <h:link outcome="custConvertMoney"
-                                    value="#{msgs.link_cust_convert_money}"/>
+                            <h:panelGroup rendered="#{loginBean.customer}">
+                                <h:link outcome="custViewAccounts"
+                                        value="#{msgs.link_cust_accounts}"/>
+                                <h:link outcome="custTransferMoney"
+                                        value="#{msgs.link_cust_transfer_money}"/>
+                                <h:link outcome="custSendStatement"
+                                        value="#{msgs.link_cust_send_statement}"/>
+                                <h:link outcome="custConvertMoney"
+                                        value="#{msgs.link_cust_convert_money}"/>
+                                <p:spacer height="20" />
+                            </h:panelGroup>
+
+                            
+
+                            <h:link rendered="#{! loginBean.logged}"
+                                    outcome="login"
+                                    value="#{msgs.link_login}"/>
+                            <h:form rendered="#{loginBean.logged}">
+                                <h:commandLink action="#{loginBean.logout}"
+                                               value="#{msgs.link_logout}" />
+                            </h:form>
                         </h:panelGrid>
                     </ui:insert>
                 </div>

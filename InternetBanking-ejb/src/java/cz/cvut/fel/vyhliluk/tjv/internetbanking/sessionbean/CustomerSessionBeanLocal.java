@@ -26,4 +26,6 @@ public interface CustomerSessionBeanLocal {
     List<Customer> getAllCustomers();
 
     void invalidate(Long id);
+
+    boolean isUsernameFree(String username);
 }

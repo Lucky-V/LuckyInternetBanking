@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Customer;
@@ -54,4 +50,13 @@ public class CustomerSessionBean implements CustomerSessionBeanLocal {
     public Customer getCustomerById(Long id) {
         return this.em.find(Customer.class, id);
     }
+
+    @Override
+    public boolean isUsernameFree(String username) {
+        Query q = this.em.createNamedQuery("User.findByUsername");
+        q.setParameter("username", username);
+        return q.getResultList().isEmpty();
+    }
+
+
 }
