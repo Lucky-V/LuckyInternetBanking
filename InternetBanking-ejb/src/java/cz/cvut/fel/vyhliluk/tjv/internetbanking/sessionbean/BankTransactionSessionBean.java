@@ -5,40 +5,35 @@
 
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean;
 
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.dao.BankTransactionDao;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Account;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.BankTransaction;
 import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
  * @author Lucky
  */
 @Stateless
-public class BankTransactionSessionBean implements BankTransactionSessionBeanLocal {
+@LocalBean
+public class BankTransactionSessionBean {
 
-    @PersistenceContext
-    private EntityManager em;
+    @EJB
+    private BankTransactionDao btDao;
 
-    @Override
     public void addTransaction(BankTransaction transaction) {
-        this.em.persist(transaction);
+        this.btDao.create(transaction);
     }
 
-    @Override
     public List<BankTransaction> getAllTransactions() {
-        Query q = this.em.createNamedQuery("BankTransaction.viewAll");
-        return q.getResultList();
+        return this.btDao.findAll();
     }
 
-    @Override
     public List<BankTransaction> getAllTransactionsLimited(int from, int to) {
-        Query q = this.em.createNamedQuery("BankTransaction.viewAll");
-        q.setFirstResult(from);
-        q.setMaxResults(to);
-        return q.getResultList();
+        return this.btDao.getAllTransactionsLimited(from, to);
     }
  
 }

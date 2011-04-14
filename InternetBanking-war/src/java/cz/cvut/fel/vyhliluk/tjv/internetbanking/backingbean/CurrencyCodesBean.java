@@ -6,7 +6,7 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.backingbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Currency;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencySessionBeanLocal;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencySessionBean;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.BundleUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import javax.validation.constraints.Pattern;
 public class CurrencyCodesBean {
 
     @EJB
-    private CurrencySessionBeanLocal currencyBean;
+    private CurrencySessionBean currencyBean;
 
     @Pattern(regexp="^\\w\\w\\w$")
     private String code;

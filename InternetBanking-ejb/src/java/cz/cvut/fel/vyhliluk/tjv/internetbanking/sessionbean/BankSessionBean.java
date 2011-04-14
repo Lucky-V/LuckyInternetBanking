@@ -1,44 +1,41 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean;
 
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.dao.BankDao;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Bank;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.exception.EntityAlreadyUpdatedException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
  * @author Lucky
  */
 @Stateless
-public class BankSessionBean implements BankSessionBeanLocal {
+public class BankSessionBean {
 
-    @PersistenceContext
-    private EntityManager em;
+    @EJB
+    private BankDao bankDao;
 
-    @Override
     public void updateBankCode(Bank b) {
-        this.em.merge(b);
-    }
-
-    @Override
-    public List<Bank> getAllBanks() {
-        Query q = this.em.createNamedQuery("Bank.findAll");
-        return q.getResultList();
-    }
-
-    @Override
-    public void removeBank(Integer code) {
-        Bank bank = this.em.find(Bank.class, code);
-        if (bank != null) {
-            this.em.remove(bank);
+        try {
+            this.bankDao.update(b);
+        } catch (EntityAlreadyUpdatedException ex) {
+            Logger.getLogger(BankSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    @Override
-    public Bank getByCode(Integer code) {
-        return this.em.find(Bank.class, code);
+    public List<Bank> getAllBanks() {
+        return this.bankDao.findAll();
     }
 
+    public void removeBank(Integer code) {
+        this.bankDao.deleteById(code);
+    }
+
+    public Bank getByCode(Integer code) {
+        return this.bankDao.findById(code);
+    }
 }

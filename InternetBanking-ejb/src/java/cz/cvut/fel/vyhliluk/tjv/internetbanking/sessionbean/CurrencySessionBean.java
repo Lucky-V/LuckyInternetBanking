@@ -4,56 +4,48 @@
  */
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean;
 
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.dao.CurrencyDao;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Currency;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.exception.EntityAlreadyUpdatedException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
  * @author Lucky
  */
 @Stateless
-public class CurrencySessionBean implements CurrencySessionBeanLocal {
+@LocalBean
+public class CurrencySessionBean {
 
-    @PersistenceContext
-    private EntityManager em;
+    @EJB
+    private CurrencyDao currencyDao;
 
-    @Override
     public List<Currency> getAllCurencies() {
-        Query q = this.em.createNamedQuery("Currency.getAll");
-        return q.getResultList();
+        return this.currencyDao.findAll();
     }
 
     public List<Currency> getCurrenciesWithRate() {
-        Query q = this.em.createNamedQuery("Currency.getWithRate");
-        return q.getResultList();
+        return this.currencyDao.getCurrenciesWithRate();
     }
 
-    @Override
     public void updateCurrency(Currency c) {
-        this.em.merge(c);
-    }
-
-    @Override
-    public void deleteCurrency(String code) {
-        Currency c = this.em.find(Currency.class, code);
-        if (c != null) {
-            this.em.remove(c);
-        }
-    }
-
-    @Override
-    public Currency getByCode(String code) {
-        Query q = this.em.createNamedQuery("Currency.getByCode");
-        q.setParameter("code", code);
         try {
-            return (Currency) q.getSingleResult();
-        } catch (NoResultException ex) {
-            return null;
+            this.currencyDao.update(c);
+        } catch (EntityAlreadyUpdatedException ex) {
+            Logger.getLogger(CurrencySessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void deleteCurrency(String code) {
+        this.currencyDao.deleteById(code);
+    }
+
+    public Currency getByCode(String code) {
+        return this.currencyDao.findById(code);
     }
 }

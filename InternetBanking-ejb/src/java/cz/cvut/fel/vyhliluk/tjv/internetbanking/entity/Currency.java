@@ -15,9 +15,9 @@ import javax.persistence.OneToOne;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name="Currency.getAll", query="SELECT c FROM Currency c"),
+    @NamedQuery(name="Currency.findAll", query="SELECT c FROM Currency c"),
     @NamedQuery(name="Currency.getByCode", query="SELECT c FROM Currency c WHERE c.code=:code"),
-    @NamedQuery(name="Currency.getWithRate", query="SELECT c FROM Currency c WHERE c.rate IS NOT NULL")
+    @NamedQuery(name="Currency.getWithRate", query="SELECT c FROM Currency c LEFT JOIN c.rate r WHERE r.id IS NOT NULL")
 })
 public class Currency implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -23,7 +23,8 @@ import javax.persistence.Table;
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name="user_type")
 @NamedQueries({
-    @NamedQuery(name="User.findByUsername", query="SELECT c FROM Customer c where c.username=:username")
+    @NamedQuery(name="User.findByUsername", query="SELECT c FROM Customer c where c.username=:username"),
+    @NamedQuery(name="User.findAll", query="SELECT c FROM Customer c")
 })
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;

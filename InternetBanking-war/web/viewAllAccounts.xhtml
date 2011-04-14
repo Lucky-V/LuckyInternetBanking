@@ -34,7 +34,10 @@
                         </p:column>
 
                         <p:column headerText="">
-                            <h:commandLink value="#{msgs.all_accounts_transactionlink}" />
+                            <h:link value="#{msgs.all_accounts_transactionlink}"
+                                    outcome="custViewAccTrans">
+                                <f:param name="accountId" value="#{acc.id}" />
+                            </h:link>
                         </p:column>
                     </p:dataTable>
                 </h:form>

@@ -6,7 +6,7 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.backingbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.BankTransaction;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.BankTransactionSessionBeanLocal;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.BankTransactionSessionBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -21,7 +21,7 @@ import javax.faces.bean.RequestScoped;
 public class TransactionsBean {
 
     @EJB
-    private BankTransactionSessionBeanLocal bankTransBean;
+    private BankTransactionSessionBean bankTransBean;
 
     //private LazyDataModel<BankTransaction> transactionsLazyModel;
 

@@ -5,10 +5,10 @@ import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.BankTransaction;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Currency;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.CurrencyRate;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.CurrentCurrencyRate;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.AccountSessionBeanLocal;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.BankTransactionSessionBeanLocal;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencyRateSessionBeanLocal;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencySessionBeanLocal;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.AccountSessionBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.BankTransactionSessionBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencyRateSessionBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencySessionBean;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.CurrencyUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -31,17 +31,16 @@ public class PayInterestSessionBean {
     private static final Logger LOG = Logger.getLogger(PayInterestSessionBean.class.getName());
 
     @EJB
-    private AccountSessionBeanLocal accountBean;
+    private AccountSessionBean accountBean;
     @EJB
-    private BankTransactionSessionBeanLocal bankTransBean;
+    private BankTransactionSessionBean bankTransBean;
     @EJB
-    private CurrencySessionBeanLocal currencyBean;
+    private CurrencySessionBean currencyBean;
     @EJB
-    private CurrencyRateSessionBeanLocal currencyRateBean;
+    private CurrencyRateSessionBean currencyRateBean;
 
     @Schedule(hour="12",minute="0",second="0")
     public void payInterests() {
-        System.out.println("xxx");
         LOG.info("Pay Interest Start");
 
         List<Account> accounts = this.accountBean.getAllAccounts();
@@ -68,7 +67,7 @@ public class PayInterestSessionBean {
         }
 
         this.setCurrentCurrencies();
-        LOG.info("Pay Interest Stop - OK");
+        LOG.info("Pay Interest Done");
     }
 
     private void createInterestTransaction(Account acc, BigDecimal interest, Currency c) {

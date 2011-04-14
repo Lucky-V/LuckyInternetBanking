@@ -7,13 +7,14 @@ package cz.cvut.fel.vyhliluk.tjv.internetbanking.backingbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Customer;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.exception.EntityAlreadyUpdatedException;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CustomerSessionBeanLocal;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CustomerSessionBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.UserSessionBean;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.BundleUtil;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -33,7 +34,9 @@ import org.primefaces.event.UnselectEvent;
 public class CustomerBean {
 
     @EJB
-    private CustomerSessionBeanLocal custSessionBean;
+    private CustomerSessionBean custBean;
+    @EJB
+    private UserSessionBean userBean;
 
     @Length(min=1, max=40)
     private String firstName;
@@ -56,7 +59,7 @@ public class CustomerBean {
     private Integer version;
 
     public List<Customer> getAllCustomers() {
-        return this.custSessionBean.getAllCustomers();
+        return this.custBean.getAllCustomers();
     }
 
     public List<SelectItem> getCustomerSelectItems() {
@@ -96,14 +99,7 @@ public class CustomerBean {
             return null;
         }
 
-        String usernameTemplate = surname.substring(0, surname.length() > 5 ? 5 : surname.length())
-                + firstName.substring(0, firstName.length() > 3 ? 3 : firstName.length());
-        String username = usernameTemplate;
-        Integer n = 0;
-        while (! this.custSessionBean.isUsernameFree(username)) {
-            n++;
-            username = usernameTemplate + n;
-        }
+        String username = this.createUserName();
 
         Customer c = new Customer();
         c.setFirstName(firstName);
@@ -111,7 +107,7 @@ public class CustomerBean {
         c.setEmail(email);
         c.setPassword(password);
         c.setUsername(username);
-        this.custSessionBean.addCustomer(c);
+        this.custBean.addCustomer(c);
 
         this.firstName = "";
         this.surname = "";
@@ -125,7 +121,7 @@ public class CustomerBean {
     }
 
     public String update() {
-        Customer c = this.custSessionBean.getCustomerById(this.customerId);
+        Customer c = this.custBean.getCustomerById(this.customerId);
         if (c == null) {
             BundleUtil.addErrMessage(
                     "update_customer_updated_err_noselect_msg_title",
@@ -140,7 +136,7 @@ public class CustomerBean {
         c.setEmail(this.email);
 
         try {
-            this.custSessionBean.updateCustomer(c);
+            this.custBean.updateCustomer(c);
         } catch (EntityAlreadyUpdatedException ex) {
             BundleUtil.addErrMessage(
                 "update_customer_updated_err_optimlock_title",
@@ -158,7 +154,7 @@ public class CustomerBean {
     }
 
     public String delete() {
-        this.custSessionBean.invalidate(this.customerId);
+        this.custBean.invalidate(this.customerId);
 
         this.customerId = null;
 
@@ -223,6 +219,23 @@ public class CustomerBean {
 
     public void setPassword2(String password2) {
         this.password2 = password2;
+    }
+
+
+    //================== PRIVATE METHODS =======================================
+
+    private String createUserName() {
+        String usernameTemplate = surname.substring(0, surname.length() > 5 ? 5 : surname.length())
+                + firstName.substring(0, firstName.length() > 3 ? 3 : firstName.length());
+        usernameTemplate = Normalizer.normalize(usernameTemplate, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]","");
+        String username = usernameTemplate;
+        Integer n = 0;
+        while (! this.userBean.isUsernameFree(username)) {
+            n++;
+            username = usernameTemplate + n;
+        }
+        
+        return username;
     }
 
 }

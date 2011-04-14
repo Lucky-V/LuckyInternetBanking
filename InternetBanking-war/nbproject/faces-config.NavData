@@ -8,8 +8,8 @@
         <Node id="bankCodes.xhtml" x="484" y="215" zoom="true"/>
         <Node id="*" x="329" y="8" zoom="true"/>
         <Node id="addAccount.xhtml" x="285" y="383" zoom="true"/>
-        <Node id="customerTransactionList.xhtml" x="355" y="556" zoom="true"/>
         <Node id="customerConvertMoney.xhtml" x="1" y="547" zoom="true"/>
+        <Node id="customerTransactionList.xhtml" x="355" y="556" zoom="true"/>
         <Node id="updateCustomer.xhtml" x="533" y="305" zoom="true"/>
         <Node id="viewAllCustomers.xhtml" x="28" y="385" zoom="true"/>
         <Node id="interestRates.xhtml" x="31" y="302" zoom="true"/>

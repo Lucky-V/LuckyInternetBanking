@@ -1,11 +1,14 @@
 
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.backingbean;
 
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Customer;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Manager;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.exception.LoginBeanException;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CustomerSessionBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.UserSessionBean;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.BundleUtil;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.UserRole;
 import java.security.Principal;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -20,6 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 @ManagedBean
 @RequestScoped
 public class LoginBean {
+
+    @EJB
+    private UserSessionBean userBean;
 
     private String username;
 
@@ -73,6 +79,36 @@ public class LoginBean {
 
     public boolean isManager() {
         return FacesContext.getCurrentInstance().getExternalContext().isUserInRole("Manager");
+    }
+
+    /**
+     * Returns the Customer entity related to the logged user
+     * @return
+     */
+    public Customer getCustomer() {
+        if (!this.isLogged()) {
+            throw new LoginBeanException("User is not logged!");
+        }
+        if (!this.isCustomer()) {
+            throw new LoginBeanException("User is not a Customer!");
+        }
+
+        return (Customer)this.userBean.getByUsername(getUser());
+    }
+
+    /**
+     * Returns the Customer entity related to the logged user
+     * @return
+     */
+    public Manager getManager() {
+        if (!this.isLogged()) {
+            throw new LoginBeanException("User is not logged!");
+        }
+        if (!this.isManager()) {
+            throw new LoginBeanException("User is not a Manager!");
+        }
+
+        return (Manager)this.userBean.getByUsername(getUser());
     }
 
     public String getPassword() {

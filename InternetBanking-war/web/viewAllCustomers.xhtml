@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.prime.com.tr/ui">
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
     
     <body>
         
@@ -39,7 +40,10 @@
                         </p:column>
 
                         <p:column headerText="">
-                            <h:commandLink value="#{msgs.all_customers_accountlink}" />
+                            <h:link value="#{msgs.all_customers_accountlink}"
+                                    outcome="custViewAccounts">
+                                <f:param name="customerId" value="#{cust.id}" />
+                            </h:link>
                         </p:column>
                     </p:dataTable>
                 </h:form>

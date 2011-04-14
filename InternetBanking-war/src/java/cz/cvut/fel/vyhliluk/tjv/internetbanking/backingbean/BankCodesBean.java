@@ -1,7 +1,7 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.backingbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Bank;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.BankSessionBeanLocal;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.BankSessionBean;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.BundleUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import javax.validation.constraints.Pattern;
 public class BankCodesBean {
 
     @EJB
-    private BankSessionBeanLocal bankBean;
+    private BankSessionBean bankBean;
 
     @Pattern(regexp="^\\d\\d\\d$")
     private String bankCode;

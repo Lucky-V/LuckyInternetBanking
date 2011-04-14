@@ -8,9 +8,9 @@ package cz.cvut.fel.vyhliluk.tjv.internetbanking.backingbean;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Account;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Currency;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Customer;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.AccountSessionBeanLocal;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencySessionBeanLocal;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CustomerSessionBeanLocal;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.AccountSessionBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencySessionBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CustomerSessionBean;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.BundleUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -31,11 +31,11 @@ import javax.validation.constraints.NotNull;
 public class AccountsBean {
 
     @EJB
-    private AccountSessionBeanLocal accountBean;
+    private AccountSessionBean accountBean;
     @EJB
-    private CustomerSessionBeanLocal customerBean;
+    private CustomerSessionBean customerBean;
     @EJB
-    private CurrencySessionBeanLocal currencyBean;
+    private CurrencySessionBean currencyBean;
 
     @NotNull
     private Long selectedCustomerId;

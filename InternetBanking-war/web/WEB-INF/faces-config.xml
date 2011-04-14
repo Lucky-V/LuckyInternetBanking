@@ -39,50 +39,67 @@
         <navigation-case>
             <from-outcome>viewAllAccounts</from-outcome>
             <to-view-id>/viewAllAccounts.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         <navigation-case>
             <from-outcome>viewUpdateBankCodes</from-outcome>
             <to-view-id>/bankCodes.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         <navigation-case>
             <from-outcome>viewUpdateCurrencyCodes</from-outcome>
             <to-view-id>/currencyCodes.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         <navigation-case>
             <from-outcome>addDeleteCustomer</from-outcome>
             <to-view-id>/addDeleteCustomer.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         <navigation-case>
             <from-outcome>updateCustomer</from-outcome>
             <to-view-id>/updateCustomer.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         <navigation-case>
             <from-outcome>viewAllCustomers</from-outcome>
             <to-view-id>/viewAllCustomers.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         <navigation-case>
             <from-outcome>addAccount</from-outcome>
             <to-view-id>/addAccount.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         <navigation-case>
             <from-outcome>viewAllTransactions</from-outcome>
             <to-view-id>/viewAllTransactions.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         <navigation-case>
             <from-outcome>custViewAccounts</from-outcome>
             <to-view-id>/customerAccountList.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>custViewAccTrans</from-outcome>
+            <to-view-id>/customerTransactionList.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         <navigation-case>
             <from-outcome>custTransferMoney</from-outcome>
             <to-view-id>/customerTransferMoney.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         <navigation-case>
             <from-outcome>custSendStatement</from-outcome>
             <to-view-id>/customerSendStatement.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         <navigation-case>
             <from-outcome>custConvertMoney</from-outcome>
             <to-view-id>/customerConvertMoney.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
     </navigation-rule>
 

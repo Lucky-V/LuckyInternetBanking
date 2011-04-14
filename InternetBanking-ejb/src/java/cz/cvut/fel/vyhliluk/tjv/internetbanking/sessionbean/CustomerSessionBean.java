@@ -1,62 +1,41 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean;
 
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.dao.CustomerDao;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Customer;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.exception.EntityAlreadyUpdatedException;
 import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.OptimisticLockException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
  * @author Lucky
  */
 @Stateless
-public class CustomerSessionBean implements CustomerSessionBeanLocal {
+@LocalBean
+public class CustomerSessionBean {
 
-    @PersistenceContext
-    private EntityManager em;
+    @EJB
+    private CustomerDao custDao;
 
-    @Override
     public void addCustomer(Customer c) {
-        this.em.persist(c);
+        this.custDao.create(c);
     }
 
-    @Override
     public void updateCustomer(Customer c) throws EntityAlreadyUpdatedException {
-        try {
-            this.em.merge(c);
-        } catch (OptimisticLockException ex) {
-            throw new EntityAlreadyUpdatedException("Customer has been already updated");
-        }
+        this.custDao.update(c);
     }
 
-    @Override
     public List<Customer> getAllCustomers() {
-        Query q = this.em.createNamedQuery("Customer.findAll");
-        return q.getResultList();
+        return this.custDao.findAll();
     }
 
-    @Override
     public void invalidate(Long id) {
-        Customer c = this.em.find(Customer.class, id);
-        c.setValid(Boolean.FALSE);
-        this.em.merge(c);
+        this.custDao.invalidate(id);
     }
 
-    @Override
     public Customer getCustomerById(Long id) {
-        return this.em.find(Customer.class, id);
+        return this.custDao.findById(id);
     }
-
-    @Override
-    public boolean isUsernameFree(String username) {
-        Query q = this.em.createNamedQuery("User.findByUsername");
-        q.setParameter("username", username);
-        return q.getResultList().isEmpty();
-    }
-
-
 }

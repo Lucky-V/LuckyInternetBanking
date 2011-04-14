@@ -20,7 +20,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name="BankTransaction.viewAll", query="SELECT bt FROM BankTransaction bt ORDER BY bt.id DESC"),
+    @NamedQuery(name="BankTransaction.findAll", query="SELECT bt FROM BankTransaction bt ORDER BY bt.id DESC"),
     @NamedQuery(name="BankTransaction.getByAccount", query="SELECT bt FROM BankTransaction bt JOIN bt.accountFrom af JOIN bt.accountTo at where af = :account or at = :account ORDER BY bt.id DESC")
 })
 public class BankTransaction implements Serializable {

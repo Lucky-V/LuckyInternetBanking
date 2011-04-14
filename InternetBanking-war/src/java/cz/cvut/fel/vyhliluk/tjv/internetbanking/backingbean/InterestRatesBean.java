@@ -7,8 +7,8 @@ package cz.cvut.fel.vyhliluk.tjv.internetbanking.backingbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Currency;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.CurrencyRate;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencyRateSessionBeanLocal;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencySessionBeanLocal;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencyRateSessionBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencySessionBean;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.BundleUtil;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,9 +29,9 @@ import javax.validation.constraints.Pattern;
 public class InterestRatesBean {
 
     @EJB
-    private CurrencyRateSessionBeanLocal rateBean;
+    private CurrencyRateSessionBean rateBean;
     @EJB
-    private CurrencySessionBeanLocal currencyBean;
+    private CurrencySessionBean currencyBean;
 
     @Pattern(regexp="^\\w\\w\\w$")
     private String selectedCurrency;
