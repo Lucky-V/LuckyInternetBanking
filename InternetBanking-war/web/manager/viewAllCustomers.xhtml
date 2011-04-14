@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <body>
+        
+        <ui:composition template="/WEB-INF/includes/simpleTemplate.xhtml">
+            
+            <ui:define name="content">
+                <h1>#{msgs.all_customers_title}</h1>
+
+                <h:form>
+                    <p:dataTable value="#{customerManagerBean.allCustomers}" var="cust" style="width: 50%;">
+                        <p:column headerText="#{msgs.customer_list_id}">
+                            <h:outputText value="#{cust.id}" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.customer_list_firstname}">
+                            <h:outputText value="#{cust.firstName}" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.customer_list_lastname}">
+                            <h:outputText value="#{cust.surname}" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.customer_list_email}">
+                            <h:outputText value="#{cust.email}" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.customer_list_username}">
+                            <h:outputText value="#{cust.username}" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.customer_list_password}">
+                            <h:outputText value="#{cust.password}" />
+                        </p:column>
+
+                        <p:column headerText="">
+                            <h:link value="#{msgs.all_customers_accountlink}"
+                                    outcome="viewAccounts">
+                                <f:param name="customerId" value="#{cust.id}" />
+                            </h:link>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+        
+    </body>
+</html>

@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="/WEB-INF/includes/simpleTemplate.xhtml">
+
+            <ui:define name="content">
+                <h1>#{msgs.interest_rates_title}</h1>
+
+                <ui:include src="/WEB-INF/includes/ajaxstatus.xhtml" />
+                <p:growl id="messages" globalOnly="true" showDetail="true" />
+
+                <h2>#{msgs.interest_rates_list_title}</h2>
+
+                <h:form id="rateListForm">
+                    <p:dataTable id="rateList"
+                                 var="rate"
+                                 value="#{interestRates.allRates}"
+                                 style="width: 40%">
+                        <p:column headerText="#{msgs.interest_rates_list_code}">
+                            <h:outputText value="#{rate.currency.code}" />
+                        </p:column>
+
+                        <p:column headerText="#{msgs.interest_rates_list_rate}">
+                            <h:outputText value="#{rate.rate}" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <h2>#{msgs.interest_rates_update_title}</h2>
+
+                <h:form>
+                    <h:panelGrid id="updatePanel" columns="3">
+                        <h:outputLabel for="code" value="#{msgs.interest_rates_code}" />
+                        <h:selectOneMenu id="code" 
+                                         value="#{interestRates.selectedCurrency}"
+                                         required="true"
+                                         requiredMessage="#{msgs.interest_rates_required_code}">
+                            <f:selectItems value="#{currencyCodes.currencyItems}" />
+                        </h:selectOneMenu>
+                        <p:message for="code" />
+
+                        <h:outputLabel for="rate" value="#{msgs.interest_rates_rate}" />
+                        <p:inputText id="rate" value="#{interestRates.rate}" validatorMessage="#{msgs.interest_rates_validation_rate}" />
+                        <p:message for="rate" />
+
+                        <p:commandButton value="#{msgs.interest_rates_update}"
+                                         update="updatePanel,rateListForm:rateList,messages,deleteForm:panel"
+                                         action="#{interestRates.update}"/>
+                    </h:panelGrid>
+                </h:form>
+
+                <h2>#{msgs.interest_rates_delete_title}</h2>
+
+                <h:form id="deleteForm">
+                    <h:panelGrid id="panel" columns="2">
+                        <h:selectOneMenu id="rateSelect" value="#{interestRates.selectedRate}">
+                            <f:selectItems value="#{interestRates.rateSelectItems}" />
+                        </h:selectOneMenu>
+                        <p:commandButton value="#{msgs.interest_rates_delete}"
+                                         onclick="confirmation.show()"
+                                         disabled="#{interestRates.rateSelectItems.size() == 0}"/>
+                    </h:panelGrid>
+
+                    <p:confirmDialog message="#{msgs.interest_rates_delete_confirm_message}"
+                                     header="#{msgs.interest_rates_delete_confirm_title}"
+                                     widgetVar="confirmation"
+                                     modal="true">
+                        <p:commandButton value="#{msgs.confirm_delete_yes}"
+                                         update="messages,rateListForm:rateList,deleteForm:panel"
+                                         oncomplete="confirmation.hide()"
+                                         actionListener="#{interestRates.delete}"
+                                         />
+                        <p:commandButton value="#{msgs.confirm_delete_no}"
+                                         onclick="confirmation.hide()"
+                                         type="button"/>
+                    </p:confirmDialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

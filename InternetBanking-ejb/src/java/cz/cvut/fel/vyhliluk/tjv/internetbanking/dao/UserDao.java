@@ -2,6 +2,7 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.dao;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.Query;
@@ -21,7 +22,12 @@ public class UserDao extends AbstractDao<User, Long> {
     public User findByUsername(String username) {
         Query q = this.em.createNamedQuery("User.findByUsername");
         q.setParameter("username", username);
-        return (User)q.getSingleResult();
+        List<User> res = q.getResultList();
+        if (res.isEmpty()) {
+            return null;
+        } else {
+            return res.get(0);
+        }
     }
     
     

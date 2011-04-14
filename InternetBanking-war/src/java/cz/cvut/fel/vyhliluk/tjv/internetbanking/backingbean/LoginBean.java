@@ -4,8 +4,8 @@ package cz.cvut.fel.vyhliluk.tjv.internetbanking.backingbean;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Customer;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Manager;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.exception.LoginBeanException;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CustomerSessionBean;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.UserSessionBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.manager.CustomerManagementSessionBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.manager.UserSessionBean;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.BundleUtil;
 import java.security.Principal;
 import javax.ejb.EJB;
@@ -93,7 +93,7 @@ public class LoginBean {
             throw new LoginBeanException("User is not a Customer!");
         }
 
-        return (Customer)this.userBean.getByUsername(getUser());
+        return (Customer)this.userBean.getLoggedUser();
     }
 
     /**
@@ -108,7 +108,7 @@ public class LoginBean {
             throw new LoginBeanException("User is not a Manager!");
         }
 
-        return (Manager)this.userBean.getByUsername(getUser());
+        return (Manager)this.userBean.getLoggedUser();
     }
 
     public String getPassword() {

@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="/WEB-INF/includes/simpleTemplate.xhtml">
+
+            <ui:define name="content">
+                <h1>#{msgs.add_delete_customer_title}</h1>
+
+                <p:growl id="messages" showDetail="true" globalOnly="true" />
+                <ui:include src="/WEB-INF/includes/ajaxstatus.xhtml" />
+
+                <h2>#{msgs.add_delete_customer_add_title}</h2>
+
+                <h:form id="customerForm">
+                    <h:panelGrid columns="3">
+                        <h:outputLabel for="firstname" value="#{msgs.add_delete_customer_firstname}" />
+                        <p:inputText id="firstname" 
+                                     value="#{customerManagerBean.firstName}"
+                                     validatorMessage="#{msgs.add_delete_customer_validation_firstname}"/>
+                        <p:message for="firstname" />
+
+                        <h:outputLabel for="surname" value="#{msgs.add_delete_customer_surname}" />
+                        <p:inputText id="surname" 
+                                     value="#{customerManagerBean.surname}"
+                                     validatorMessage="#{msgs.add_delete_customer_validation_surname}"/>
+                        <p:message for="surname" />
+
+                        <h:outputLabel for="email" value="#{msgs.add_delete_customer_email}" />
+                        <p:inputText id="email" 
+                                     value="#{customerManagerBean.email}"
+                                     validatorMessage="#{msgs.add_delete_customer_validation_email}"/>
+                        <p:message for="email" />
+
+                        <h:outputLabel for="password" value="#{msgs.add_delete_customer_password}" />
+                        <p:inputText id="password"
+                                     value="#{customerManagerBean.password}"
+                                     validatorMessage="#{msgs.add_delete_customer_validation_password}"/>
+                        <p:message for="password" />
+
+                        <h:outputLabel for="password2" value="#{msgs.add_delete_customer_password2}" />
+                        <p:inputText id="password2"
+                                     value="#{customerManagerBean.password2}" />
+                        <p:message for="password2" />
+
+                        <p:commandButton value="#{msgs.add_delete_customer_add}"
+                                         update="messages,customerForm,deleteForm:panel"
+                                         action="#{customerManagerBean.createCustomer}"/>
+                    </h:panelGrid>
+                </h:form>
+
+                <h2>#{msgs.add_delete_customer_delete_title}</h2>
+
+                <h:form id="deleteForm">
+                    <h:panelGrid id="panel" columns="2">
+                        <h:selectOneMenu id="customerSelect"
+                                         value="#{customerManagerBean.customerId}">
+                            <f:selectItems value="#{customerManagerBean.customerSelectItems}" />
+                        </h:selectOneMenu>
+                        <p:commandButton value="#{msgs.add_delete_customer_delete}"
+                                         onclick="confirmation.show()"
+                                         disabled="#{customerManagerBean.customerSelectItems.size() == 0}"/>
+                    </h:panelGrid>
+
+                    <p:confirmDialog header="#{msgs.add_delete_customer_delete_confirm_title}"
+                                     message="#{msgs.add_delete_customer_delete_confirm_msg}"
+                                     widgetVar="confirmation"
+                                     modal="true">
+                        <p:commandButton value="#{msgs.confirm_delete_yes}"
+                                         update="messages,deleteForm:panel"
+                                         oncomplete="confirmation.hide()"
+                                         actionListener="#{customerManagerBean.delete}"
+                                         />
+                        <p:commandButton value="#{msgs.confirm_delete_no}"
+                                         onclick="confirmation.hide()"
+                                         type="button"/>
+                    </p:confirmDialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
