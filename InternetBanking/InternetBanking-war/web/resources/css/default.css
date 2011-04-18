@@ -1,0 +1,51 @@
+body {
+    background-color: #d9e7ed;
+    font-size: 12px;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    color: #000000;  
+    margin: 10px;
+}
+
+h1 {
+    font-family: Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    border-bottom: 1px solid #AFAFAF; 
+    font-size:  16px;
+    font-weight: bold;
+    padding: 0px;
+    color: #D20005;
+}
+
+a {
+    color: blue;
+    font-weight: bold;
+    text-decoration : none;
+}
+
+a:hover {
+    color: blue;
+    text-decoration : none;
+}
+
+#left a {
+    display: block;
+    background-color: #fbf5e1;
+    margin-bottom: 3px;
+    padding: 3px 3px 3px 3px;
+    color: blue;
+    border-left: 5px solid #D20005;
+    border-right: 5px solid #D20005;
+    text-decoration : none;
+    text-align: center;
+    width: 210px;
+}
+
+#left a:hover {
+    border-left: 5px solid #FF0005;
+    border-right: 5px solid #FF0005;
+    background-color: #ffe9a1;
+    text-decoration: none;
+}
+
+#left .menuGrid td {
+    padding-bottom: 2px;
+}

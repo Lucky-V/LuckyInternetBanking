@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <f:view contentType="text/html">
+
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+            <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+            <link href="../resources/css/default.css" rel="stylesheet" type="text/css" />
+            <link href="../resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+            <title>Internet Banking</title>
+        </h:head>
+
+        <h:body>
+
+            <div id="top">
+                Logo
+            </div>
+            <div>
+                <div id="left">
+                        <h:panelGrid columns="1" styleClass="menuGrid">
+                            <h:link outcome="index" value="#{msgs.link_home}"/>
+
+                            <p:spacer height="20" />
+
+                            <h:panelGroup rendered="#{loginBean.manager}">
+                                <h:link outcome="viewUpdateBankCodes"
+                                        value="#{msgs.link_view_update_bank_codes}" />
+                                <h:link outcome="viewUpdateCurrencyCodes"
+                                        value="#{msgs.link_view_update_currency_codes}" />
+                                <h:link outcome="viewUpdateInterestRates"
+                                        value="#{msgs.link_view_update_interest_rates}"/>
+                                <h:link outcome="addDeleteCustomer"
+                                        value="#{msgs.link_add_delete_customer}"/>
+                                <h:link outcome="updateCustomer"
+                                        value="#{msgs.link_update_customer}"/>
+                                <h:link outcome="viewAllCustomers"
+                                        value="#{msgs.link_view_all_customers}"/>
+                                <h:link outcome="viewAllAccounts"
+                                        value="#{msgs.link_view_all_accounts}"/>
+                                <h:link outcome="addAccount"
+                                        value="#{msgs.link_add_account}"/>
+                                <h:link outcome="viewAllTransactions"
+                                        value="#{msgs.link_view_all_transactions}"/>
+                                <p:spacer height="20" />
+                            </h:panelGroup>
+
+                            
+
+                            <h:panelGroup rendered="#{loginBean.customer}">
+                                <h:link outcome="custViewAccounts"
+                                        value="#{msgs.link_cust_accounts}"/>
+                                <h:link outcome="custTransferMoney"
+                                        value="#{msgs.link_cust_transfer_money}"/>
+                                <h:link outcome="custSendStatement"
+                                        value="#{msgs.link_cust_send_statement}"/>
+                                <h:link outcome="custConvertMoney"
+                                        value="#{msgs.link_cust_convert_money}"/>
+                                <p:spacer height="20" />
+                            </h:panelGroup>
+
+                            
+
+                            <h:link rendered="#{! loginBean.logged}"
+                                    outcome="login"
+                                    value="#{msgs.link_login}"/>
+                            <h:form rendered="#{loginBean.logged}">
+                                <h:commandLink action="#{loginBean.logout}"
+                                               immediate="true"
+                                               value="#{msgs.link_logout}" />
+                            </h:form>
+                        </h:panelGrid>
+                </div>
+                <div id="content" class="left_content">
+                    <ui:insert name="content">Content</ui:insert>
+                </div>
+            </div>
+            <div id="bottom">
+                Lukáš Vyhlídka
+            </div>
+
+        </h:body>
+
+    </f:view>
+
+</html>
