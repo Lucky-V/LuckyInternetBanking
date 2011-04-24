@@ -1,10 +1,7 @@
 
 package cz.cvut.fel.vyhliluk.tjv.centralbank.ws;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import javax.jws.WebService;
 
 /**
@@ -17,18 +14,14 @@ public class CentralBankWS {
     /**
      * Web service operation
      */
-    @WebMethod(operationName = "transfer")
-    public int transfer(
-            @WebParam(name="bankFrom") final Integer bankFrom,
-            @WebParam(name="accountFrom") final Long accountFrom,
-            @WebParam(name="bankTo") final Integer bankTo,
-            @WebParam(name="accountTo") final Long accountTo,
-            @WebParam(name="amount") final BigDecimal amount,
-            @WebParam(name="currency") final String currency,
-            @WebParam(name="description") final String description,
-            @WebParam(name="date") final Date dateTime) {
+    @WebMethod(operationName = "addTransfer")
+    public ResponseDTO addTransfer(TransferDTO transfer) {
+        ObjectFactory fact = new ObjectFactory();
+        ResponseDTO res = fact.createResponseDTO();
+        res.code = 0;
+        res.description = "OK";
 
-        return 0;
+        return res;
     }
 
 }

@@ -23,6 +23,7 @@ public class CurrencySessionBean {
     @EJB
     private CurrencyDao currencyDao;
 
+    @RolesAllowed(value={"Manager", "Customer"})
     public List<Currency> getAllCurencies() {
         return this.currencyDao.findAll();
     }

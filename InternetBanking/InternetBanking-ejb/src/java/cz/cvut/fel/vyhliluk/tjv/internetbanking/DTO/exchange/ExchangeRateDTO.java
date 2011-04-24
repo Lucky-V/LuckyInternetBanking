@@ -1,4 +1,4 @@
-package cz.cvut.fel.vyhliluk.tjv.exchoffice.converter;
+package cz.cvut.fel.vyhliluk.tjv.internetbanking.DTO.exchange;
 
 import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlElement;
@@ -12,16 +12,16 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "exchangeRate")
 @XmlType(propOrder = {"currencyFrom", "currencyTo", "rate"})
-public class ExchangeRateConverter {
+public class ExchangeRateDTO {
 
     private String currencyFrom;
     private String currencyTo;
     private BigDecimal rate;
 
-    public ExchangeRateConverter() {
+    public ExchangeRateDTO() {
     }
 
-    public ExchangeRateConverter(String currencyFrom, String currencyTo, BigDecimal rate) {
+    public ExchangeRateDTO(String currencyFrom, String currencyTo, BigDecimal rate) {
         this.currencyFrom = currencyFrom;
         this.currencyTo = currencyTo;
         this.rate = rate;

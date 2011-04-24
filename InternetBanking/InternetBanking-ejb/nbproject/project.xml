@@ -9,6 +9,7 @@
             <included-library dirs="200">file.reference.slf4j-log4j12-1.6.1.jar</included-library>
             <included-library dirs="200">file.reference.slf4j-api-1.6.1.jar</included-library>
             <included-library dirs="200">file.reference.log4j-1.2.16.jar</included-library>
+            <included-library dirs="200">file.reference.iText-5.0.6.jar</included-library>
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>

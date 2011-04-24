@@ -2,6 +2,7 @@ package cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Customer;
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -21,22 +22,26 @@ import org.slf4j.LoggerFactory;
 public class NotificationSessionBean {
 
     private static Logger LOG = LoggerFactory.getLogger(NotificationSessionBean.class);
+
+    @EJB
+    private CustomerSessionBean custBean;
     
     @Resource(mappedName = "jms/IBMailQueue")
     private Queue mailQueue;
     @Resource(mappedName = "jms/IBConnectionFactory")
     private ConnectionFactory connFactory;
 
-    public void sendMessage(Customer c, String subject, String body) {
+    public void sendStatementMessage(Customer c, Long accountId) {
         try {
-            this.sendMessageToQueue(c, subject, body);
-            LOG.info("Mail for customer added into query.", c.getUsername());
+            this.custBean.getTransactions(accountId, c);
+            this.sendStatementMessageToQueue(c, accountId);
+            LOG.info("Statement for customer added into query.", c.getUsername());
         } catch (JMSException ex) {
-            LOG.error("Error during sending mail! {}", ex.getMessage());
+            LOG.error("Error during adding statement to queue: {}", ex.getMessage());
         }
     }
 
-    private void sendMessageToQueue(Customer c, String subject, String body) throws JMSException {
+    private void sendStatementMessageToQueue(Customer c, Long accountId) throws JMSException {
         Connection conn = this.connFactory.createConnection();
         try {
             Session session = conn.createSession(true, Session.AUTO_ACKNOWLEDGE);
@@ -45,9 +50,8 @@ public class NotificationSessionBean {
                 try {
                     MapMessage message = session.createMapMessage();
 
-                    message.setString("mailto", c.getEmail());
-                    message.setString("subject", subject);
-                    message.setString("body", body);
+                    message.setLong("customerId", c.getId());
+                    message.setLong("accountId", accountId);
 
                     mp.send(message);
                 } finally {

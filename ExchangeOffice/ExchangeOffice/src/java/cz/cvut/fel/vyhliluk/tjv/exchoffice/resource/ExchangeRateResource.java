@@ -30,7 +30,7 @@ public class ExchangeRateResource {
     @GET
     @Produces(value="application/xml")
     public ExchangeRateConverter read(@PathParam("id") String name) {
-        return new ExchangeRateConverter("CZK", new BigDecimal("16.4321"));
+        return new ExchangeRateConverter("CZK", "CZK", new BigDecimal("1"));
     }
 
 }

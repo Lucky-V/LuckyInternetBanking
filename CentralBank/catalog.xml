@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/LuckyV/Documents/NonBackupSchool/InternetBanking/CentralBank/src/java/cz/cvut/fel/vyhliluk/tjv/centralbank/ws/CBXMLSchema.xml" uri="src/conf/xml-resources/jaxb/DTO/CBXMLSchema.xml.xsd"/>
+    <system systemId="file:/C:/Users/LuckyV/Documents/NonBackupSchool/InternetBanking/CentralBank/src/java/cz/cvut/fel/vyhliluk/tjv/centralbank/dto/DTOSchema.xml" uri="src/conf/xml-resources/jaxb/DTO/DTOSchema.xml.xsd"/>
+</catalog>

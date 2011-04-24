@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,31 +21,46 @@ import javax.persistence.Temporal;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name="BankTransaction.findAll", query="SELECT bt FROM BankTransaction bt ORDER BY bt.id DESC"),
-    @NamedQuery(name="BankTransaction.getByAccount", query="SELECT bt FROM BankTransaction bt JOIN bt.accountFrom af JOIN bt.accountTo at where af = :account or at = :account ORDER BY bt.id DESC")
+    @NamedQuery(name = "BankTransaction.findAll", query = "SELECT bt FROM BankTransaction bt ORDER BY bt.id DESC"),
+    @NamedQuery(name = "BankTransaction.getByAccount", query = "SELECT bt FROM BankTransaction bt JOIN bt.accountFrom af JOIN bt.accountTo at where af = :account or at = :account ORDER BY bt.id DESC")
 })
 public class BankTransaction implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+//    @ManyToOne
+//    @Column(nullable=true)
+//    private Bank bankFrom;
+//    @ManyToOne
+//    @Column(nullable=true)
+//    private Bank bankTo;
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Account accountFrom;
-
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Account accountTo;
-
-    @Column(precision=20, scale=2)
+    @Column(precision = 20, scale = 2, nullable = false)
     private BigDecimal amountFrom;
-
-    @Column(precision=20, scale=2)
+    @Column(precision = 20, scale = 2, nullable = false)
     private BigDecimal amountTo;
-
     private String description;
-
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateTime;
+
+    public BankTransaction() {
+    }
+
+    public BankTransaction(Account accountFrom, Account accountTo, BigDecimal amountFrom, BigDecimal amountTo, String description, Date dateTime) {
+        this.accountFrom = accountFrom;
+        this.accountTo = accountTo;
+        this.amountFrom = amountFrom;
+        this.amountTo = amountTo;
+        this.description = description;
+        this.dateTime = dateTime;
+    }
 
     public Long getId() {
         return id;
@@ -126,5 +142,4 @@ public class BankTransaction implements Serializable {
     public String toString() {
         return "cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.BankTransaction[id=" + id + "]";
     }
-
 }

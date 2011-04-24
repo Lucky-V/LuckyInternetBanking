@@ -1,0 +1,23 @@
+<xs:schema xmlns:tns="http://ws.centralbank.tjv.vyhliluk.fel.cvut.cz/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.centralbank.tjv.vyhliluk.fel.cvut.cz/">
+    <xs:element name="transfer" type="tns:transferDTO"/>
+    <xs:element name="response" type="tns:responseDTO"/>
+    <xs:complexType name="transferDTO">
+        <xs:sequence>
+            <xs:element name="accountFrom" type="xs:long"/>
+            <xs:element name="accountTo" type="xs:long"/>
+            <xs:element name="amount" type="xs:decimal"/>
+            <xs:element name="bankFrom" type="xs:int"/>
+            <xs:element name="bankTo" type="xs:int"/>
+            <xs:element name="currency" type="xs:string"/>
+            <xs:element name="dateTime" type="xs:dateTime"/>
+            <xs:element name="description" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="responseDTO">
+        <xs:sequence>
+            <xs:element name="code" type="xs:int"/>
+            <xs:element name="description" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

@@ -31,6 +31,7 @@ public class BankSessionBean {
         }
     }
 
+    @RolesAllowed(value={"Manager", "Customer"})
     public List<Bank> getAllBanks() {
         return this.bankDao.findAll();
     }
