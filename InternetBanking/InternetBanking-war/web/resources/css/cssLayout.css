@@ -38,4 +38,10 @@
     margin-left: 170px;
 }
 
+.greenRow td {
+    background-color: #d6ffcd;
+}
 
+.redRow td {
+    background-color: #ffdddd;
+}

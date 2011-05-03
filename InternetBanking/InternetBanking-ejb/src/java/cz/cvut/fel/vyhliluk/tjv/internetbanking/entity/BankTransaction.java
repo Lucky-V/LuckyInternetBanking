@@ -22,7 +22,7 @@ import javax.persistence.Temporal;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "BankTransaction.findAll", query = "SELECT bt FROM BankTransaction bt ORDER BY bt.id DESC"),
-    @NamedQuery(name = "BankTransaction.getByAccount", query = "SELECT bt FROM BankTransaction bt JOIN bt.accountFrom af JOIN bt.accountTo at where af = :account or at = :account ORDER BY bt.id DESC")
+    @NamedQuery(name = "BankTransaction.getByAccountId", query = "SELECT bt FROM BankTransaction bt where (bt.accountFrom = :account and bt.bankFrom IS NULL) or (bt.accountTo = :account and bt.bankTo IS NULL) ORDER BY bt.id DESC")
 })
 public class BankTransaction implements Serializable {
 
@@ -30,18 +30,16 @@ public class BankTransaction implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @ManyToOne
-//    @Column(nullable=true)
-//    private Bank bankFrom;
-//    @ManyToOne
-//    @Column(nullable=true)
-//    private Bank bankTo;
     @ManyToOne
-    @JoinColumn(nullable = false)
-    private Account accountFrom;
+    @JoinColumn(nullable=true)
+    private Bank bankFrom;
     @ManyToOne
-    @JoinColumn(nullable = false)
-    private Account accountTo;
+    @JoinColumn(nullable=true)
+    private Bank bankTo;
+    @Column(nullable = false)
+    private Long accountFrom;
+    @Column(nullable = false)
+    private Long accountTo;
     @Column(precision = 20, scale = 2, nullable = false)
     private BigDecimal amountFrom;
     @Column(precision = 20, scale = 2, nullable = false)
@@ -53,9 +51,11 @@ public class BankTransaction implements Serializable {
     public BankTransaction() {
     }
 
-    public BankTransaction(Account accountFrom, Account accountTo, BigDecimal amountFrom, BigDecimal amountTo, String description, Date dateTime) {
+    public BankTransaction(Long accountFrom, Bank bankFrom, Long accountTo, Bank bankTo, BigDecimal amountFrom, BigDecimal amountTo, String description, Date dateTime) {
         this.accountFrom = accountFrom;
         this.accountTo = accountTo;
+        this.bankFrom = bankFrom;
+        this.bankTo = bankTo;
         this.amountFrom = amountFrom;
         this.amountTo = amountTo;
         this.description = description;
@@ -70,20 +70,36 @@ public class BankTransaction implements Serializable {
         this.id = id;
     }
 
-    public Account getAccountFrom() {
+    public Long getAccountFrom() {
         return accountFrom;
     }
 
-    public void setAccountFrom(Account accountFrom) {
+    public void setAccountFrom(Long accountFrom) {
         this.accountFrom = accountFrom;
     }
 
-    public Account getAccountTo() {
+    public Long getAccountTo() {
         return accountTo;
     }
 
-    public void setAccountTo(Account accountTo) {
+    public void setAccountTo(Long accountTo) {
         this.accountTo = accountTo;
+    }
+
+    public Bank getBankFrom() {
+        return bankFrom;
+    }
+
+    public void setBankFrom(Bank bankFrom) {
+        this.bankFrom = bankFrom;
+    }
+
+    public Bank getBankTo() {
+        return bankTo;
+    }
+
+    public void setBankTo(Bank bankTo) {
+        this.bankTo = bankTo;
     }
 
     public BigDecimal getAmountFrom() {

@@ -53,4 +53,9 @@ public class AbstractDao<T, I> {
         this.em.remove(entity);
     }
 
+    public void refresh(T entity) {
+        T e = this.em.merge(entity);
+        this.em.refresh(e);
+    }
+
 }

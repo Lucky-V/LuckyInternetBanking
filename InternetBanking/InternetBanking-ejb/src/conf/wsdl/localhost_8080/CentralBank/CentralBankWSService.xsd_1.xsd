@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.1-hudson-28-. --><xs:schema xmlns:tns="http://ws.centralbank.tjv.vyhliluk.fel.cvut.cz/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.centralbank.tjv.vyhliluk.fel.cvut.cz/">
+
+<xs:element name="addTransfer" type="tns:addTransfer" />
+
+<xs:element name="addTransferResponse" type="tns:addTransferResponse" />
+
+<xs:complexType name="addTransfer">
+<xs:sequence>
+<xs:element name="arg0" type="tns:transferDTO" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transferDTO">
+<xs:sequence>
+<xs:element name="accountFrom" type="xs:long" />
+<xs:element name="accountTo" type="xs:long" />
+<xs:element name="amount" type="xs:decimal" />
+<xs:element name="bankFrom" type="xs:int" />
+<xs:element name="bankTo" type="xs:int" />
+<xs:element name="currency" type="xs:string" />
+<xs:element name="dateTime" type="xs:dateTime" />
+<xs:element name="description" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addTransferResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:responseDTO" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="responseDTO">
+<xs:sequence>
+<xs:element name="code" type="xs:int" />
+<xs:element name="description" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

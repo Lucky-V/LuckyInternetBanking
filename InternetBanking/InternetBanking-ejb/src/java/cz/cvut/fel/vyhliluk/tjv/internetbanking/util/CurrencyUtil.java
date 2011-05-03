@@ -15,6 +15,10 @@ public class CurrencyUtil {
         return number.setScale(4, RoundingMode.HALF_UP);
     }
 
+    public static BigDecimal setDbScale(BigDecimal number) {
+        return number.setScale(2, RoundingMode.HALF_UP);
+    }
+
     public static BigDecimal setScale(BigDecimal number, Currency c) {
         return number.setScale(c.getDecimalDigits(), RoundingMode.HALF_UP);
     }

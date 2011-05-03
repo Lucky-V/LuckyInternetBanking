@@ -29,6 +29,9 @@ public class CustomerTransactionBean {
     private Long accountId;
 
     public List<BankTransaction> getAccountTransactions() {
+        if (this.accountId == null) {
+            return null;
+        }
         Customer c = this.loginBean.getCustomer();
         return this.custBean.getTransactions(accountId, c);
     }

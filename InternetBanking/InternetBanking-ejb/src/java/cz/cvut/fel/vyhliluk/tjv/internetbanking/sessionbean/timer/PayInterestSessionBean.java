@@ -42,7 +42,7 @@ public class PayInterestSessionBean {
     private CurrentCurrencyRateDao currentCurrencyRateBean;
 
     @Schedule(hour="0",minute="0",second="0")
-    //@Schedule(hour="*",minute="*",second="*/12")
+    //@Schedule(hour="*",minute="*",second="*/15")
     public void payInterests() {
         LOG.info("Pay Interest Start");
 
@@ -79,8 +79,10 @@ public class PayInterestSessionBean {
 
     private void createInterestTransaction(Account acc, BigDecimal interest, Currency c) {
         BankTransaction bt = new BankTransaction();
-        bt.setAccountFrom(acc);
-        bt.setAccountTo(acc);
+        bt.setAccountFrom(acc.getId());
+        bt.setAccountTo(acc.getId());
+        bt.setBankFrom(null);
+        bt.setBankTo(null);
         bt.setAmountFrom(BigDecimal.ZERO);
         bt.setAmountTo(CurrencyUtil.setScale(interest, c));
         bt.setDateTime(new Date());
@@ -102,16 +104,16 @@ public class PayInterestSessionBean {
                 
                 try {
                     this.currentCurrencyRateBean.update(currentRate);
+                    this.currencyBean.refresh(c);
                 } catch (EntityAlreadyUpdatedException ex) {
                     LOG.error(ex.getMessage());
                 }
             } else {
                 if (currentRate != null) {
                     this.currentCurrencyRateBean.deleteById(currentRate.getId());
+                    this.currencyBean.refresh(c);
                 }
             }
         }
     }
-    
- 
 }

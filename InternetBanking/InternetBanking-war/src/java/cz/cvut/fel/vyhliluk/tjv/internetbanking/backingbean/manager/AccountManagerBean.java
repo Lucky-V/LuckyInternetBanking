@@ -61,7 +61,7 @@ public class AccountManagerBean {
         acc.setCustomer(cust);
         acc.setCurrency(cur);
         acc.setBalance(balance);
-
+        
         this.accountBean.addAccount(acc);
 
         this.selectedCurrencyCode = null;

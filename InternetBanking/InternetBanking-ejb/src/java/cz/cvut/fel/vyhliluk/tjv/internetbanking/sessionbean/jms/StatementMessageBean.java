@@ -167,21 +167,24 @@ public class StatementMessageBean implements MessageListener {
             String account;
             String bank;
             String amount;
-            if (trans.getAccountFrom().getId().equals(accountId) && trans.getAccountTo().getId().equals(accountId)) {
+            if (trans.getBankFrom() == null && trans.getAccountFrom().equals(accountId) && trans.getBankTo() == null && trans.getAccountTo().equals(accountId)) {
                 type = "Interest";
                 account = "";
                 bank = "";
-                amount = trans.getAmountTo() + " " + trans.getAccountTo().getCurrency().getCode();
-            } else if (trans.getAccountFrom().getId().equals(accountId)) {
+                Account accObj = this.accountBean.findById(trans.getAccountTo());
+                amount = trans.getAmountTo() + " " + accObj.getCurrency().getCode();
+            } else if (trans.getBankFrom() == null && trans.getAccountFrom().equals(accountId)) {
                 type = "Outgouing payment";
-                account = trans.getAccountTo().getId().toString();
+                account = trans.getAccountTo().toString();
                 bank = "our bank";
-                amount = trans.getAmountTo() + " " + trans.getAccountTo().getCurrency().getCode();
+                Account accObj = this.accountBean.findById(trans.getAccountTo());
+                amount = trans.getAmountTo() + " " + accObj.getCurrency().getCode();
             } else {
                 type = "Incoming payment";
-                account = trans.getAccountFrom().getId().toString();
+                account = trans.getAccountFrom().toString();
                 bank = "our bank";
-                amount = trans.getAmountFrom() + " " + trans.getAccountFrom().getCurrency().getCode();
+                Account accObj = this.accountBean.findById(trans.getAccountFrom());
+                amount = trans.getAmountFrom() + " " + accObj.getCurrency().getCode();
             }
             table.addCell(type + "\n" + account + "\n" + bank);
             table.addCell(amount);

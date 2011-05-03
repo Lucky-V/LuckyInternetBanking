@@ -20,7 +20,7 @@
                         </p:column>
 
                         <p:column headerText="#{msgs.transaction_list_accountFrom}">
-                            <h:outputText value="#{trans.accountFrom.id}, #{trans.accountFrom.customer.surname}" />
+                            <h:outputText value="#{trans.accountFrom} (#{trans.bankFrom.name})" />
                         </p:column>
 
                         <p:column headerText="#{msgs.transaction_list_amountFrom}">
@@ -28,7 +28,7 @@
                         </p:column>
 
                         <p:column headerText="#{msgs.transaction_list_accountTo}">
-                            <h:outputText value="#{trans.accountTo.id}, #{trans.accountTo.customer.surname}" />
+                            <h:outputText value="#{trans.accountTo} (#{trans.bankTo.name})" />
                         </p:column>
 
                         <p:column headerText="#{msgs.transaction_list_amountTo}">

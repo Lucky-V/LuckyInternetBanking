@@ -71,8 +71,7 @@
                                     outcome="login"
                                     value="#{msgs.link_login}"/>
                             <h:form rendered="#{loginBean.logged}">
-                                <h:commandLink action="#{loginBean.logout}"
-                                               immediate="true"
+                                <p:commandLink action="#{loginBean.logout}"
                                                value="#{msgs.link_logout}" />
                             </h:form>
                         </h:panelGrid>

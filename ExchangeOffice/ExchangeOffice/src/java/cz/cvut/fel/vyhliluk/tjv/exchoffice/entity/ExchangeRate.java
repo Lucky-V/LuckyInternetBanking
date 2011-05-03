@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  * Date: 18.4.2011
@@ -12,6 +14,9 @@ import javax.persistence.Id;
  * @author Lucky
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="ExchangeRate.findByCode", query="SELECT er FROM ExchangeRate er where er.currency = :code")
+})
 public class ExchangeRate implements Serializable {
 
     @Id

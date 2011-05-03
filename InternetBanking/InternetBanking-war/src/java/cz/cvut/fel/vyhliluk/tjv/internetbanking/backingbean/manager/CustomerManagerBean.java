@@ -107,6 +107,8 @@ public class CustomerManagerBean {
         this.firstName = "";
         this.surname = "";
         this.email = "";
+        this.password = "";
+        this.password2 = "";
 
         BundleUtil.addOkMessage(
                 "add_delete_customer_added_ok_msg_title",

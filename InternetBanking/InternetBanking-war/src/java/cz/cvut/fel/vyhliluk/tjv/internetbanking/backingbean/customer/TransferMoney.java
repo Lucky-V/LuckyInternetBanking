@@ -1,6 +1,7 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.backingbean.customer;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.backingbean.LoginBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.exception.TransferMoneyException;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CustomerSessionBean;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.BundleUtil;
 import java.math.BigDecimal;
@@ -48,10 +49,14 @@ public class TransferMoney {
                     "customer_transfer_money_err_same_acc_title");
             return null;
         }
-
-        this.custBean.transferMoney(
-                loginBean.getCustomer(), accountFromId, accountToId, bankToId,
-                amount, currencyCode, description);
+        try {
+            this.custBean.transferMoney(loginBean.getCustomer(), accountFromId, accountToId, bankToId, amount, currencyCode, description);
+        } catch (TransferMoneyException ex) {
+            BundleUtil.addErrMessage(
+                    "customer_transfer_money_err_title",
+                    "customer_transfer_money_err_msg");
+            return null;
+        }
 
         BundleUtil.addOkMessage(
                 "customer_transfer_money_ok_title",
