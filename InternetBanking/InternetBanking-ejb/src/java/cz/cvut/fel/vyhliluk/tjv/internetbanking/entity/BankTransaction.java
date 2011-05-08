@@ -22,7 +22,8 @@ import javax.persistence.Temporal;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "BankTransaction.findAll", query = "SELECT bt FROM BankTransaction bt ORDER BY bt.id DESC"),
-    @NamedQuery(name = "BankTransaction.getByAccountId", query = "SELECT bt FROM BankTransaction bt where (bt.accountFrom = :account and bt.bankFrom IS NULL) or (bt.accountTo = :account and bt.bankTo IS NULL) ORDER BY bt.id DESC")
+    @NamedQuery(name = "BankTransaction.getByAccountId", query = "SELECT bt FROM BankTransaction bt where (bt.accountFrom = :account and bt.bankFrom IS NULL) or (bt.accountTo = :account and bt.bankTo IS NULL) ORDER BY bt.id DESC"),
+    @NamedQuery(name = "BankTransaction.getByAccountIdAndInterval", query = "SELECT bt FROM BankTransaction bt where ((bt.accountFrom = :account and bt.bankFrom IS NULL) or (bt.accountTo = :account and bt.bankTo IS NULL)) and (bt.dateTime >= :from and bt.dateTime <= :to) ORDER BY bt.id DESC")
 })
 public class BankTransaction implements Serializable {
 

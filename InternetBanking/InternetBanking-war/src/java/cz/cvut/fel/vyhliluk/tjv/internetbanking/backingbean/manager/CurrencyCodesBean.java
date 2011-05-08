@@ -16,6 +16,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -39,6 +40,9 @@ public class CurrencyCodesBean {
     @DecimalMin(value="0")
     private Integer decimalDigits;
 
+    @NotNull
+    private Double risk;
+
     @Pattern(regexp="^\\w\\w\\w$")
     private String selectedCurrency;
 
@@ -50,11 +54,13 @@ public class CurrencyCodesBean {
         }
         c.setName(name);
         c.setDecimalDigits(decimalDigits);
+        c.setRisk(risk);
         this.currencyBean.updateCurrency(c);
 
         this.code = "";
         this.name = "";
         this.decimalDigits = 0;
+        this.risk = null;
 
         BundleUtil.addOkMessage(
                 "currency_codes_updated_ok_msg_title",
@@ -107,6 +113,14 @@ public class CurrencyCodesBean {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Double getRisk() {
+        return risk;
+    }
+
+    public void setRisk(Double risk) {
+        this.risk = risk;
     }
 
     public Integer getDecimalDigits() {

@@ -34,6 +34,10 @@
                         <p:column headerText="#{msgs.currency_codes_list_decimal_digits}">
                             <h:outputText value="#{currency.decimalDigits}" />
                         </p:column>
+
+                        <p:column headerText="Risk">
+                            <h:outputText value="#{currency.risk}" />
+                        </p:column>
                     </p:dataTable>
                 </h:form>
 
@@ -64,6 +68,12 @@
                             <f:selectItem itemValue="2" itemLabel="2" />
                         </h:selectOneMenu>
                         <p:message for="digits" />
+
+                        <h:outputLabel for="risk"
+                                       value="Risk" />
+                        <p:inputText id="risk"
+                                     value="#{currencyCodes.risk}" />
+                        <p:message for="risk" />
 
                         <p:commandButton value="#{msgs.currency_codes_update}"
                                          action="#{currencyCodes.update}"

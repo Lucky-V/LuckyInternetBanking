@@ -1,20 +1,20 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.timer;
 
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.dao.AccountDao;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.dao.BankTransactionDao;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.dao.CurrencyDao;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.dao.CurrentCurrencyRateDao;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Account;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.BankTransaction;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Currency;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.CurrencyRate;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.CurrentCurrencyRate;
-import cz.cvut.fel.vyhliluk.tjv.internetbanking.exception.EntityAlreadyUpdatedException;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.AccountSessionBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.BankTransactionSessionBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencyRateSessionBean;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean.CurrencySessionBean;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.CurrencyUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
@@ -28,25 +28,25 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Startup
+@RunAs("Manager")
 public class PayInterestSessionBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(PayInterestSessionBean.class);
-
     @EJB
-    private AccountDao accountBean;
+    private AccountSessionBean accountBean;
     @EJB
-    private BankTransactionDao bankTransBean;
+    private BankTransactionSessionBean bankTransBean;
     @EJB
-    private CurrencyDao currencyBean;
+    private CurrencySessionBean currencyBean;
     @EJB
-    private CurrentCurrencyRateDao currentCurrencyRateBean;
+    private CurrencyRateSessionBean currentCurrencyRateBean;
 
     @Schedule(hour="0",minute="0",second="0")
-    //@Schedule(hour="*",minute="*",second="*/15")
+    //@Schedule(hour = "*", minute = "*", second = "*/15")
     public void payInterests() {
-        LOG.info("Pay Interest Start");
+        LOG.info("Pay Interest Start ===>");
 
-        List<Account> accounts = this.accountBean.findAll();
+        List<Account> accounts = this.accountBean.getAllAccounts();
 
         for (Account account : accounts) {
             Currency currency = account.getCurrency();
@@ -60,21 +60,19 @@ public class PayInterestSessionBean {
             }
 
             BigDecimal accBalance = CurrencyUtil.setCountScale(account.getBalance());
-            BigDecimal interest = accBalance.multiply(rateValue).divide(new BigDecimal(365), 4, RoundingMode.HALF_UP);
+            BigDecimal minBalance = CurrencyUtil.setCountScale(this.getMinimalBalance(account));
+            LOG.info("Min Balance (accId: " + account.getId() + "): " + minBalance);
+            BigDecimal interest = minBalance.multiply(rateValue).divide(new BigDecimal(365), 4, RoundingMode.HALF_UP);
             accBalance = CurrencyUtil.setScale(accBalance.add(interest), currency);
 
             this.createInterestTransaction(account, interest, currency);
 
             account.setBalance(accBalance);
-            try {
-                this.accountBean.update(account);
-            } catch (EntityAlreadyUpdatedException ex) {
-                LOG.error(ex.getMessage());
-            }
+            this.accountBean.updateAccount(account);
         }
 
         this.setCurrentCurrencies();
-        LOG.info("Pay Interest Done");
+        LOG.info("Pay Interest Done <===");
     }
 
     private void createInterestTransaction(Account acc, BigDecimal interest, Currency c) {
@@ -88,11 +86,11 @@ public class PayInterestSessionBean {
         bt.setDateTime(new Date());
         bt.setDescription("interest");
 
-        this.bankTransBean.create(bt);
+        this.bankTransBean.addTransaction(bt);
     }
 
     private void setCurrentCurrencies() {
-        for (Currency c : this.currencyBean.findAll()) {
+        for (Currency c : this.currencyBean.getAllCurencies()) {
             CurrencyRate rate = c.getRate();
             CurrentCurrencyRate currentRate = this.currentCurrencyRateBean.getCurrentRateByCurrencyCode(c.getCode());
             if (rate != null) {
@@ -101,19 +99,33 @@ public class PayInterestSessionBean {
                     currentRate.setCurrency(c);
                 }
                 currentRate.setRate(rate.getRate());
-                
-                try {
-                    this.currentCurrencyRateBean.update(currentRate);
-                    this.currencyBean.refresh(c);
-                } catch (EntityAlreadyUpdatedException ex) {
-                    LOG.error(ex.getMessage());
-                }
+
+                this.currentCurrencyRateBean.updateCurrentCurrency(currentRate);
+                this.currencyBean.updateCurrency(c);
             } else {
                 if (currentRate != null) {
-                    this.currentCurrencyRateBean.deleteById(currentRate.getId());
-                    this.currencyBean.refresh(c);
+                    this.currentCurrencyRateBean.removeCurrentCurrencyRate(currentRate.getId());
+                    this.currencyBean.updateCurrency(c);
                 }
             }
         }
+    }
+
+    private BigDecimal getMinimalBalance(Account acc) {
+        Date act = new Date();
+        Date from = new Date(act.getYear(), act.getMonth(), act.getDate(), 0, 0, 0);
+        Date to = new Date(act.getYear(), act.getMonth(), act.getDate(), 23, 59, 59);
+        List<BankTransaction> bt = this.bankTransBean.getTransByAccountAndInterval(acc, from, to);
+        BigDecimal balance = CurrencyUtil.setCountScale(acc.getBalance());
+        BigDecimal minBalance = balance;
+        for (BankTransaction trans : bt) {
+            if (trans.getAccountTo().equals(acc.getId())) {
+                balance = balance.subtract(trans.getAmountTo());
+            } else {
+                balance = balance.add(trans.getAmountFrom());
+            }
+            minBalance = balance.min(minBalance);
+        }
+        return minBalance;
     }
 }

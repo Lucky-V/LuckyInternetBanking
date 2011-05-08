@@ -1,7 +1,9 @@
 package cz.cvut.fel.vyhliluk.tjv.internetbanking.sessionbean;
 
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.dao.BankTransactionDao;
+import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Account;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.BankTransaction;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -30,6 +32,10 @@ public class BankTransactionSessionBean {
 
     public List<BankTransaction> getAllTransactionsLimited(int from, int to) {
         return this.btDao.getAllTransactionsLimited(from, to);
+    }
+
+    public List<BankTransaction> getTransByAccountAndInterval(Account acc, Date from, Date to) {
+        return this.btDao.getTransByAccountAndInterval(acc, from, to);
     }
  
 }

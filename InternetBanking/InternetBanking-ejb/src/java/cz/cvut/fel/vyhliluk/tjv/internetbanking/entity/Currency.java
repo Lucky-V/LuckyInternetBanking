@@ -30,6 +30,9 @@ public class Currency implements Serializable {
 
     private Integer decimalDigits;
 
+    @Column(name="RISK")
+    private Double risk;
+
     @OneToOne(mappedBy="currency")
     private CurrencyRate rate;
 
@@ -58,6 +61,14 @@ public class Currency implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Double getRisk() {
+        return risk;
+    }
+
+    public void setRisk(Double risk) {
+        this.risk = risk;
     }
 
     public CurrencyRate getRate() {

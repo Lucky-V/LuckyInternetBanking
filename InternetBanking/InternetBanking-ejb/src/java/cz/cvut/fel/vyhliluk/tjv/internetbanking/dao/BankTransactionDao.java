@@ -5,6 +5,7 @@ import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.Account;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.entity.BankTransaction;
 import cz.cvut.fel.vyhliluk.tjv.internetbanking.util.CurrencyUtil;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -42,6 +43,14 @@ public class BankTransactionDao extends AbstractDao<BankTransaction, Long> {
         entity.setAmountFrom(from);
         entity.setAmountTo(to);
         super.create(entity);
+    }
+
+    public List<BankTransaction> getTransByAccountAndInterval(Account acc, Date from, Date to) {
+        Query q = this.em.createNamedQuery("BankTransaction.getByAccountIdAndInterval");
+        q.setParameter("account", acc.getId());
+        q.setParameter("from", from);
+        q.setParameter("to", to);
+        return q.getResultList();
     }
 
 
